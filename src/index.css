@@ -1,0 +1,257 @@
+@font-face {
+  font-family: "Raleway"; 
+  src: url("../Raleway/Raleway-VariableFont_wght.ttf");
+
+}
+
+body {
+  font-family: "Raleway";
+  background-color: #f8f8f8;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  color: white;
+  background-color: black;
+  padding: 1em 1.25em;
+  border: none;
+  display: block;
+  width: 100%;
+  letter-spacing: 0.1rem;
+}
+
+#logo-image {
+  width: 100px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+#homepage-pic {
+  width: 500px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+/* ↓↓↓LOGIN STYLING↓↓↓ */
+.login-elements, .register-elements {
+  border: solid black;
+  height: 100%;
+}
+
+.login-form-box, .register-form-box {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  margin: 4% 0 0 10%;
+  margin-top: 30px;
+  float: left;
+  border: solid red;
+}
+
+.login-pic-box, .register-pic-box {
+  width: 30%;
+  border: solid blue;
+  float: right;
+  margin: 4% 10% 0;
+}
+
+#login-pic {
+  width: 100%;
+}
+
+.loginform, .registerform {
+  border: solid green;
+  margin-left: 5%;
+}
+
+.login-span, .register-span {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  line-height: 1.2rem;
+}
+
+input {
+  /* border: none; */
+  /* border-bottom: 1px solid #b0acac; */
+  height: 25px;
+  padding: 2px;
+  margin-bottom: 1rem;
+  font-family: "Raleway";
+}
+
+.login-label, .register-label {
+  font-size: 14px;
+  line-height: 2rem;
+}
+
+.SubmitBtn {
+ margin-top: 2rem;
+cursor: pointer;
+}
+/* ↑↑↑LOGIN STYLING↑↑↑ */
+
+
+/* ↓↓↓REGISTER STYLING↓↓↓ */
+
+
+
+/* ↑↑↑REGISTER STYLING↑↑↑ */
+
+.navBar {
+  display: flex;
+  position: static;
+  float: none;
+  flex-flow: row nowrap;
+  flex: 1 1 auto;
+  height: 130px;
+  font-size: 16px;
+  background-color: rgb(225, 210, 245);
+  color: white;
+}
+
+.navBelt {
+  font-size: 14px;
+  color: green;
+  background-color: orange;
+}
+
+.productPhoto {
+  width: 300px;
+  display: block;
+  margin: 0 auto;
+}
+
+.single-product {
+  border: solid blue;
+  width: 45%;
+  float: left;
+  margin-left: 40px;
+}
+.single-product2 {
+  border: solid blue;
+  width: 45%;
+  float: right;
+  margin-right: 40px;
+  letter-spacing: 0.02rem;
+  padding-top: 32px;
+  padding-bottom: 20px;
+}
+
+.account-element {
+  display: block;
+  margin-left: 3%;
+}
+
+.Profile-box {
+  float: left;
+  border: solid purple;
+  width: 30%;
+  margin: 4% 0 0 10%;
+}
+
+.Address-box {
+  float: right;
+  width: 30%;
+  border: solid purple;
+  margin: 4% 10% 0 0;
+}
+
+.item svg {
+  color: steelblue;
+}
+
+/* ↓↓↓CART STYLING↓↓↓ */
+.cart-box {
+  float: left;
+  width: 30%;
+  margin: 4% 0 0 10%;
+  border: solid black;
+}
+
+.cart-item {
+  border-bottom: 1px solid #e1e0e0;
+  border: solid red;
+}
+
+.order-box {
+  float: right;
+  width: 30%;
+  border: solid purple;
+  margin: 4% 10% 0 0;
+  border: solid green;
+}
+/* ↑↑↑CART STYLING↑↑↑ */
+
+
+/* ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+/* ↓↓↓PRODUCTS STYLING↓↓↓ */
+.filter-and-products-boxes {
+  border: solid purple;
+  display: flex;
+  flex-direction: row;
+}
+
+.filter-box {
+  width: 20%;
+  border: solid orange;
+  /* margin: 4% 0 0 3%; */
+}
+
+.product-box {
+  display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+  height: 100%;
+  /* margin: 4% 35% 0 0; */
+  border: solid magenta;
+  float: right;
+  /* justify-content: space-evenly; */
+}
+
+/* .product-card-holder {
+  width: 35%;
+  margin: 10px 0 0 0;
+  justify-content: space-evenly;
+  border: solid red;
+} */
+
+.productCards {
+  width: 30%;
+  min-width: 200px;
+  height: 100%;
+  border: solid red;
+  font-size: 0.8rem;
+  margin: 5px;
+}
+
+.productPhotos {
+  width: 100%;
+  height: 220px;
+  object-fit: scale-down;
+  display: block;
+  margin: 0 auto;
+  border: solid green;
+}
+/* ↑↑↑PRODUCTS STYLING↑↑↑ */
+
+/* ↓↓↓FILTERBAR STYLING↓↓↓ */
+.filter-type {
+  font-size: 12px;
+  letter-spacing: 0.03rem;
+  border: solid green;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    
+}
+
+.category-checkbox {
+  border: solid yellow;
+}
+
+.checkbox {
+  display: inline-block;
+  vertical-align: middle;
+}
