@@ -7,8 +7,8 @@ import { useUserListQuery } from "../redux/api";
 
 export default function Login(props) {
   const [userInfo, setUserInfo] = useState({
-    username: "",
-    password: "",
+    username: "johnd",
+    password: "m38rmF$",
   });
 
   const [errorMsg, setError] = useState(null);
@@ -18,7 +18,6 @@ export default function Login(props) {
   async function handleClick(event) {
     event.preventDefault();
     const { data, error } = await login(userInfo);
-    console.log("data", userInfo);
     if (error) {
       setError(error.data);
     } else {

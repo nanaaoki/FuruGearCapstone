@@ -6,7 +6,7 @@ for example 'Login' should be available if someone has not logged in yet. */
 
 import { React, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAllCategoriesQuery, useProductListQuery } from "../redux/api";
+import { useAllCategoriesQuery } from "../redux/api";
 
 import cartIcon from "../assets/cartIcon.png";
 

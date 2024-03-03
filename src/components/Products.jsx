@@ -4,7 +4,7 @@ Fetch the product data from the provided API.
 Users should be able to click on an individual product to navigate to the 
 SingleProduct component and view its details. */
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FilterBar from "./FilterBar";
 import { useProductListQuery } from "../redux/api";
@@ -20,12 +20,12 @@ export default function Products() {
   const { data, error, isLoading } = useProductListQuery();
 
 
-
-
+console.log("product data", data)
 const filteredProducts =
 filters.length === 0
 ? data 
 : data?.filter((p) => filters.includes(p.category));
+
 
 
   return (

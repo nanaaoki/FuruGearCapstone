@@ -37,7 +37,7 @@ export default function NavBar(props) {
           <img id="accountIcon" src={accountIcon} width="30" />
         </Link>
 
-        <Link to={props.token ? `/carts/user/${props.id}`: "/carts/guest"} className="navLink">
+        <Link to={props.token ? `/carts/${props.userId}`: "/carts/guest"} className="navLink">
           <img id="cartIcon" src={cartIcon} width="30" />
         </Link>
       </div>

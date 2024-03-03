@@ -40,7 +40,6 @@ export default function SingleProduct({ token }) {
       navigate(token ? `/carts/user/${id}` : "/carts/guest");
     }
   }
-  console.log("product.id", cart);
 
   return (
     <div>

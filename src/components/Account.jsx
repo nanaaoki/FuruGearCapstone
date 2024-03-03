@@ -3,7 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useUserListQuery } from "../redux/api";
 
+//props = token, setToken, username, setId
 export default function Account(props) {
+  console.log("props", props) //returns token, username, settoken, and setUserId
   const navigate = useNavigate();
 
   const { data, error, isLoading } = useUserListQuery(props.token);
@@ -20,16 +22,18 @@ export default function Account(props) {
     return <p>Could not load info...</p>;
   }
 
-
   // useEffect(()=> {
   //   const foundUser = data.find((user) => user.username === props.username);
   //   props.setId(foundUser.id);
   //   console.log("id", foundUser.id);
   // },[])
 
-
   const user = data.find((user) => user.username === props.username);
-  props.setId(user.id)
+
+  setTimeout(() => {
+    props.setUserId(user.id);
+  });
+  
 
   return (
     <div className="account-element">

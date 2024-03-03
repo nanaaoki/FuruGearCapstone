@@ -14,7 +14,7 @@ import Checkout from "./components/CheckOut";
 function App() {
   const [token, setToken] = useState(null);
   const [username, setUsername] = useState(null);
-  const [id, setId] = useState(null);
+  const [userId, setUserId] = useState(null);
   //can pass props down but not up. So can pass token to any that might need it.
   // endpoint users/me requires a token under "authorization"
   // PATCH has authorization piece.
@@ -22,7 +22,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <NavBar token={token} setToken={setToken} id={id} />
+        <NavBar token={token} setToken={setToken} userId={userId} />
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/products" element={<Products />}/>
@@ -41,11 +41,11 @@ function App() {
           <Route
             path="/auth/me"
             element={
-              <Account token={token} setToken={setToken} username={username} setId={setId} />
+              <Account token={token} setToken={setToken} username={username} setUserId={setUserId} />
             }
           />
           <Route path="/carts/guest" element={<Cart />} />
-          <Route path="/carts/user/:id" element={<Cart token={token} />} />
+          <Route path="/carts/:id" element={<Cart token={token} userId={userId}/>} />
           <Route path="/users/checkout" element={<Checkout />} />
         </Routes>
       </BrowserRouter>

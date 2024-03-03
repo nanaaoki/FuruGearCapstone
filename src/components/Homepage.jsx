@@ -5,7 +5,7 @@ export default function Homepage() {
     <>
       <main>
         <h1 className="hp-header">Sustainability & Quality</h1>
-        <img id="homepage-pic" src={ClothesBundle} />
+        <img id="homepage-pic" src={ClothesBundle} alt={"image of a woman holding a pile of clothes"} />
 
         <p>
           Mission: Ex nulla occaecat dolor excepteur elit cupidatat consectetur
@@ -16,8 +16,6 @@ export default function Homepage() {
           aliquip sint ut nostrud ipsum qui tempor pariatur excepteur eu
           deserunt ut occaecat.
         </p>
-
-       
       </main>
     </>
   );

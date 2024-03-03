@@ -2,6 +2,7 @@
 that renders a registration form */
 
 import { useState } from "react";
+import { useRegisterUserMutation } from "../redux/api";
 
 export default function Register() {
   const [firstname, setFirstname] = useState("");
@@ -11,28 +12,14 @@ export default function Register() {
   const [newPassword, setNewPassword] = useState("");
   const [error, setError] = useState(null);
 
+  const [register] = useRegisterUserMutation();
+
   async function handleSubmit(event) {
     event.preventDefault();
 
-    try {
-      const response = await fetch(`${API_URL}/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstname: firstname,
-          lastname: lastname,
-          email: newEmail,
-          username: newUsername,
-          password: newPassword,
-        }),
-      });
-      const result = await response.json();
-      setToken(result.token);
-      console.log(result);
-    } catch (error) {
-      setError(error.message);
-    }
+    
   }
+// const { data, error } = await register(form);
 
   return (
     <div className="register-elements">

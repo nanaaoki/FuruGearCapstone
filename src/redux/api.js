@@ -11,7 +11,7 @@ export const apiSlice = createApi({
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query: (body) => ({
-        url: "/auth/register",
+        url: "/users",
         method: "POST",
         body: body,
       }),
@@ -46,8 +46,8 @@ export const apiSlice = createApi({
     }),
 
     userCart: builder.query({
-      query: ({ id, token }) => ({
-        url: `/carts/user/${id}`,
+      query: ({userId, token}) => ({
+        url: `/carts/user/${userId}`,
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${token}`,
@@ -84,8 +84,8 @@ export const apiSlice = createApi({
     }),
 
     addToUserCart: builder.mutation({
-      query: ({ id, token, cart }) => ({
-        url: `/carts/${id}`,
+      query: ({ userId, token, cart }) => ({
+        url: `/carts/${userId}`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,8 +96,8 @@ export const apiSlice = createApi({
     }),
 
     deleteUserCartItem: builder.mutation({
-      query: ({ id, productId, token }) => ({
-        url: `/carts/${id}`,
+      query: ({ userId, productId, token }) => ({
+        url: `/carts/${userId}`,
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -137,14 +137,14 @@ export const apiSlice = createApi({
     }),
 
     singleProduct: builder.query({
-      query: (id) => ({
-        url: `/products/${id}`,
+      query: (productId) => ({
+        url: `/products/${productId}`,
       }),
     }),
 
     updateProduct: builder.mutation({
-      query: ({ id, product, token }) => ({
-        url: `/products/${id}`,
+      query: ({ productId, product, token }) => ({
+        url: `/products/${productId}`,
         method: "PUT",
         body: product,
         headers: {
@@ -164,8 +164,8 @@ export const apiSlice = createApi({
     }),
 
     singleUser: builder.query({
-      query: ({ id, token }) => ({
-        url: `/users/${id}`,
+      query: ({ userId, token }) => ({
+        url: `/users/${userId}`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -174,8 +174,8 @@ export const apiSlice = createApi({
     }),
 
     updateUser: builder.mutation({
-      query: ({ id, body, token }) => ({
-        url: `/users/${id}`,
+      query: ({ userId, body, token }) => ({
+        url: `/users/${userId}`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
