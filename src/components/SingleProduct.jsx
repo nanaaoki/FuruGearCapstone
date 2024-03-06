@@ -7,6 +7,8 @@ import {
   useNavigationType,
 } from "react-router-dom";
 import { useAddToCartMutation } from "../redux/api";
+import { useSingleProductQuery } from "../redux/api";
+import { setLocalStorage } from "../utils";
 
 export default function SingleProduct({ token }) {
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ export default function SingleProduct({ token }) {
   const { id } = useParams();
   const [errorMsg, setError] = useState(null);
   const [addToCart] = useAddToCartMutation();
+  const {data, error, isLoading} = useSingleProductQuery({});
 
   useEffect(() => {
     fetchSingleProduct();
@@ -32,12 +35,14 @@ export default function SingleProduct({ token }) {
 
   async function handleClick(event) {
     event.preventDefault();
+    setLocalStorage(product.id, product)
+
     const { data, error } = await addToCart({ product, token });
     if (error) {
       setError(error.data);
     } else {
       setCart({ ...cart, product });
-      navigate(token ? `/carts/user/${id}` : "/carts/guest");
+      navigate(token ? `/carts/${id}` : "/carts/guest");
     }
   }
 
@@ -52,6 +57,7 @@ export default function SingleProduct({ token }) {
 
         <div className="single-product2">
           <h2>Title: {product.title}</h2>
+          <div className="reviews">{product.rating.rate} ({product.rating.count} reviews)</div>
           <h3>Price: ${product?.price?.toFixed(2)}</h3>
           {token ? <button onClick={handleClick}>ADD TO BAG</button> : <></>}
           <h3>Description: {product.description}</h3>

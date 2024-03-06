@@ -12,73 +12,57 @@ import {
   useProductListQuery,
 } from "../redux/api";
 
-import useFetch from "react-fetch-hook";
-
 //props = userId, token
 export default function Cart(props) {
-  // console.log("props", props); // returns token and userId
   const navigate = useNavigate();
   const [array, setArray] = useState([]);
 
-  // let { id } = useParams();
-
-  // const { data, error, isLoading } = useCartListQuery(props.token);
   const {
-    data: cartData,
+    data: cartData, //[{},{}]
     error: cartError,
     isLoading: cartIsLoading,
   } = useUserCartQuery({ userId: props.userId, token: props.token });
 
   const {
-    data: productData,
+    data: productData, //[{},{}]
     error: productError,
     isLoading: productIsLoading,
   } = useProductListQuery();
 
+  //function to get new array of products that match id
   const idMatch = () => {
-    console.log(productData);
-    console.log(cartData);
+    const cart = [];
     cartData?.map(({ products }) => {
-      console.log(products);
-      products.map(({productId}) => {
+      products.map(({ productId }) => {
         const item = productData.find((product) => {
-          console.log("product", product);
-          console.log("product.id", product.id);
-          console.log("productId", productId);
-          console.log(
-            "product.id === .productId",
-            product.id === productId
-          );
           return product.id === productId;
         });
-        console.log("item", item);
-        setArray([...array, item]);
+        cart.push(item);
       });
     });
-    
+    const output = [];
+    cart.map((p) => {
+      const doesExist = output.find((op) => op === p);
+      if (!doesExist) output.push(p);
+    });
+    setArray(output); //array of all the items in the cart.
   };
-  
+
   useEffect(() => {
     idMatch();
   }, [productIsLoading, cartIsLoading]);
-  
+
   if (cartIsLoading) {
     return <p>Loading...</p>;
   }
   if (cartError) {
-    return <p> Could not load cart into...</p>;
+    return <p> Please log in to access your cart.</p>;
   }
-  
+
   const handleClick = () => {
     navigate("/users/checkout");
   };
-  
-  // console.log("cartData", cartData); //[]
-  // console.log("cartdata.products", cartData.products); //[{}, {}]
-  // // console.log("data.products[0]", cartData.products[0]); //{}
-  // // console.log("data.products[0].productId", cartData.products[0].productId); //#
-  // console.log("productData", productData); //[{}, {}]
-  
+
   //local storage for guest user, stored in browser
   //store multiple carts via userId
   //clear only if user clears cart
@@ -88,37 +72,41 @@ export default function Cart(props) {
   //create cart from data from local storage
 
   console.log("array", array);
+
+  const cartSum = array.reduce((accum, currentValue) => {
+    return accum + currentValue.price;
+  },0)
+  console.log("cartsum", cartSum)
   
+
   return (
     <div>
       <Link to="/products">&#60;Continue Shopping</Link>
       <div>
         <div className="cart-box">
           This side for items
-          <div className="cart-item">
-            {cartData?.length ? (
-              cartData?.map(({ products }) => {
-                return products.map((cartItem) => (
-                  <>
-                    <p>Product ID: {cartItem.productId}</p>
-                    <p>image here</p>
-                    {/* <p>{cartItem.productId === cartData.product.id ? {product.image} : ""}</p> */}
-                    <p>Quantity: {cartItem.quantity}</p>
-                    <FaTrashAlt role="button" tabIndex="0" />
-                  </>
-                ));
-              })
-            ) : (
-              <h2>{cartIsLoading ? "Loading..." : ""}</h2>
-            )}
-            {/* // <div>product 1:{data.products[0].productId}</div>
-            // <div>product 1:{data.products[0].productId}</div>
-            // <div>product 1:{data.products[0].productId}</div> */}
-          </div>
+          {array?.length ? (
+            array?.map((products) => {
+              // console.log(products)
+
+              return (
+                <div className="cart-item">
+                  <img src={products.image} width={"100px"} />
+                  <p>${products.price.toFixed(2)}</p>
+                  <FaTrashAlt role="button" tabIndex="0" />
+                </div>
+              );
+            })
+          ) : (
+            <h2>{cartIsLoading ? "Loading..." : ""}</h2>
+          )}
         </div>
 
         <div className="order-box">
           This side for order summary
+          <p className="order-sum">
+            Cart Total ${cartSum.toFixed(2)}
+          </p>
           <button onClick={handleClick}>Check Out</button>
         </div>
       </div>

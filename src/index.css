@@ -210,12 +210,14 @@ cursor: pointer;
   /* justify-content: space-evenly; */
 }
 
-/* .product-card-holder {
-  width: 35%;
-  margin: 10px 0 0 0;
-  justify-content: space-evenly;
-  border: solid red;
-} */
+.sort-and-products-box {
+display: flex;
+flex-direction: column;
+}
+
+.sort-box {
+  border: solid green;
+}
 
 .productCards {
   width: 30%;

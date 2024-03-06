@@ -15,32 +15,41 @@ import { API_URL } from "./Products";
 export default function NavBar(props) {
   const navigate = useNavigate();
 
-
   const logoutUser = () => {
     props.setToken(null);
     navigate("/");
   };
 
-
   return (
     <div className="navBar">
-      <div>
-        <Link to="/">
-          <img id="logo-image" src={BrandLogo} />
+      <div className="leftNav">
+        <div>
+          <Link to="/">
+            <img id="logo-image" src={BrandLogo} />
+          </Link>
+        </div>
+        <Link to="/products" className="navLink">
+          All Products
         </Link>
       </div>
-      <Link to="/products" className="navLink">
-        All Products
-      </Link>
-      <div>
-        <Link to={props.token ? "/auth/me" : "/auth/login"} className="navLink">
-          <img id="accountIcon" src={accountIcon} width="30" />
-        </Link>
+      <div className="rightNav">
+        <div>
+          <Link
+            to={props.token ? "/auth/me" : "/auth/login"}
+            className="navLink"
+          >
+            <img id="accountIcon" src={accountIcon} width="30" />
+          </Link>
 
-        <Link to={props.token ? `/carts/${props.userId}`: "/carts/guest"} className="navLink">
-          <img id="cartIcon" src={cartIcon} width="30" />
-        </Link>
+          <Link
+            to={props.token ? `/carts/${props.userId}` : "/carts/"}
+            className="navLink"
+          >
+            <img id="cartIcon" src={cartIcon} width="30" />
+          </Link>
+        </div>
       </div>
+
       <div></div>
     </div>
   );

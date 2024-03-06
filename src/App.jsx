@@ -25,7 +25,7 @@ function App() {
         <NavBar token={token} setToken={setToken} userId={userId} />
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/products" element={<Products />}/>
+          <Route path="/products" element={<Products />} />
           <Route
             path="/products/:id"
             element={<SingleProduct token={token} />}
@@ -44,7 +44,7 @@ function App() {
               <Account token={token} setToken={setToken} username={username} setUserId={setUserId} />
             }
           />
-          <Route path="/carts/guest" element={<Cart />} />
+          <Route path="/carts/" element={<Cart />} />
           <Route path="/carts/:id" element={<Cart token={token} userId={userId}/>} />
           <Route path="/users/checkout" element={<Checkout />} />
         </Routes>

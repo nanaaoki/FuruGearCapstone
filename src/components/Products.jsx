@@ -7,26 +7,22 @@ SingleProduct component and view its details. */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FilterBar from "./FilterBar";
-import { useProductListQuery } from "../redux/api";
-
-
+import { useProductListQuery, useAddToCartMutation } from "../redux/api";
 
 export const API_URL = "https://fakestoreapi.com";
 
 export default function Products() {
+  const { data, error, isLoading } = useProductListQuery();
+  const [addToCart] = useAddToCartMutation();
   const [filters, setFilters] = useState([]);
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-  const { data, error, isLoading } = useProductListQuery();
 
 
-console.log("product data", data)
-const filteredProducts =
-filters.length === 0
-? data 
-: data?.filter((p) => filters.includes(p.category));
-
-
+  const filteredProducts =
+    filters.length === 0
+      ? data
+      : data?.filter((p) => filters.includes(p.category));
 
   return (
     <div>
@@ -34,38 +30,43 @@ filters.length === 0
 
       <div className="filter-and-products-boxes">
         <div className="filter-box">
-          <FilterBar setFilters={setFilters} filters={filters}/>
+          <FilterBar setFilters={setFilters} filters={filters} />
         </div>
-        <div className="product-box">
+        <div className="sort-and-products-box">
+          <div className="sort-box">sort box
+          
+          
+          
+          </div>
 
-          {filteredProducts?.length ? (
-            filteredProducts?.map((product) => {
-              return (
-                // <div className="product-card-holder">
-                <div key={product.id} className="productCards">
-                  <img
-                    src={product.image}
-                    className="productPhotos"
-                    onClick={() => navigate(`/products/${product.id}`)}
-                    style={{ cursor: "pointer" }}
-                  />
+          <div className="product-box">
+            {filteredProducts?.length ? (
+              filteredProducts?.map((product) => {
+                return (
+                  //productCarts
+                  <div key={product.id} className="productCards">
+                    <img
+                      src={product.image}
+                      className="productPhotos"
+                      onClick={() => navigate(`/products/${product.id}`)}
+                      style={{ cursor: "pointer" }}
+                    />
 
-                  <p
-                    className="productTitles"
-                    onClick={() => navigate(`/products/${product.id}`)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {product.title}
-                  </p>
-
-                  <p className="productPrices">${product.price.toFixed(2)}</p>
-                </div>
-                // </div>
-              );
-            })
-          ) : (
-            <h2>{isLoading ? "Loading..." : ""}</h2>
-          )}
+                    <p
+                      className="productTitles"
+                      onClick={() => navigate(`/products/${product.id}`)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {product.title}
+                    </p>
+                    <p className="productPrices">${product.price.toFixed(2)}</p>
+                  </div>
+                );
+              })
+            ) : (
+              <h2>{isLoading ? "Loading..." : ""}</h2>
+            )}
+          </div>
         </div>
       </div>
     </div>
