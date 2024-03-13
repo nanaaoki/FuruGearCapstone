@@ -57,7 +57,7 @@ export const apiSlice = createApi({
 
     addToCart: builder.mutation({
       query: ({ productId, token }) => ({
-        url: `/carts/`,
+        url: `/carts/guest`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export const apiSlice = createApi({
 
     deleteCartItem: builder.mutation({
       query: ({ productId, token }) => ({
-        url: "/carts",
+        url: `/carts/${productId}`,
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -105,6 +105,20 @@ export const apiSlice = createApi({
         },
         body: {
           productId: productId,
+        },
+      }),
+    }),
+
+    updateUserCart: builder.mutation({
+      query: ({ userId, productId, token }) => ({
+        url: `/carts/${productId}`,
+        method: "PUT",
+        body: {
+          userId,
+          products: [{productId, quantity: 1}]
+        },
+        headers: {
+          authorization: `Bearer ${token}`,
         },
       }),
     }),
@@ -163,15 +177,7 @@ export const apiSlice = createApi({
       }),
     }),
 
-    singleUser: builder.query({
-      query: ({ userId, token }) => ({
-        url: `/users/${userId}`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-    }),
+  
 
     updateUser: builder.mutation({
       query: ({ userId, body, token }) => ({
@@ -210,6 +216,7 @@ export const {
   useUpdateProductMutation,
   useUserListQuery,
   useSingleUserQuery,
+  useUpdateUserCartMutation,
   useUpdateUserMutation,
   useAllCategoriesQuery,
 } = apiSlice;

@@ -7,17 +7,21 @@ import {
   useNavigationType,
 } from "react-router-dom";
 import { useAddToCartMutation } from "../redux/api";
+import {useAddToUserCartMutation } from "../redux/api"
 import { useSingleProductQuery } from "../redux/api";
-import { setLocalStorage } from "../utils";
+import { FaStar, FaRegStar, FaStarHalfStroke } from "react-icons/fa6";
 
 export default function SingleProduct({ token }) {
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
-  const [cart, setCart] = useState({});
+  const [localCart, setLocalCart] = useState({});
   const { id } = useParams();
   const [errorMsg, setError] = useState(null);
-  const [addToCart] = useAddToCartMutation();
-  const {data, error, isLoading} = useSingleProductQuery({});
+  const [addToCart] = useAddToCartMutation(); //for users w/ userIds
+
+  const { data, error, isLoading } = useSingleProductQuery({});
+
+  console.log("localCart", localCart);
 
   useEffect(() => {
     fetchSingleProduct();
@@ -33,34 +37,90 @@ export default function SingleProduct({ token }) {
     }
   }
 
+  // useEffect(() => {
+  //   const data = localStorage.getItem("ADD_TO_CART");
+  //   if (data !== null) setLocalCart(JSON.parse(data));
+  // }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem("ADD_TO_CART", JSON.stringify(localCart));
+  // }, [localCart]);
+
+  const reviewStars = (rate) => {
+    const stars = [];
+    for (let i = 0; i < Math.floor(rate); i++) {
+      stars.push(
+        <i className="review-star">
+          <FaStar size={20} />
+        </i>
+      );
+    }
+    if (rate - Math.floor(rate) > 0.75) {
+      stars.push(
+        <i className="review-star">
+          <FaStar size={20} />
+        </i>
+      );
+    }
+    if (rate - Math.floor(rate) > 0.25 && rate - Math.floor(rate) < 0.75) {
+      stars.push(
+        <i className="review-star">
+          <FaStarHalfStroke size={20} />
+        </i>
+      );
+    }
+    if (rate - Math.floor(rate) < 0.25 && rate - Math.floor(rate) > 0) {
+      stars.push(
+        <i className="fas fa-star">
+          <FaRegStar size={20} />
+        </i>
+      );
+    }
+    const remainder = 5 - Math.ceil(rate);
+    for (let i = 0; i < remainder; i++) {
+      stars.push(
+        <i className="fas fa-star">
+          <FaRegStar size={20} />
+        </i>
+      );
+    }
+    return <div>{stars}</div>;
+  };
+
   async function handleClick(event) {
     event.preventDefault();
-    setLocalStorage(product.id, product)
+    // setLocalStorage(product.id, product);
 
     const { data, error } = await addToCart({ product, token });
     if (error) {
       setError(error.data);
     } else {
-      setCart({ ...cart, product });
+      setLocalCart({ ...localCart, product });
       navigate(token ? `/carts/${id}` : "/carts/guest");
     }
   }
 
   return (
-    <div>
-      <Link to="/products">&#60;Continue Shopping</Link>
-
-      <div className="">
-        <div className="single-product">
+    <div className="sProduct-elements">
+      <Link to="/products" className="">
+        &#60; Continue Shopping
+      </Link>
+      <div className="photo-and-info-boxes">
+        <div className="sProduct-photo-box">
           <img src={product.image} className="productPhoto" />
         </div>
+        <div className="sProduct-info-box">
+          <h2>{product.title}</h2>
+          <div className="review">
+            {reviewStars(product?.rating?.rate)}
+            <div className="review-text">
+              {product?.rating?.rate} ({product?.rating?.count} reviews)
+            </div>
+          </div>
 
-        <div className="single-product2">
-          <h2>Title: {product.title}</h2>
-          <div className="reviews">{product.rating.rate} ({product.rating.count} reviews)</div>
-          <h3>Price: ${product?.price?.toFixed(2)}</h3>
-          {token ? <button onClick={handleClick}>ADD TO BAG</button> : <></>}
-          <h3>Description: {product.description}</h3>
+          <h3 className="sProduct-price">${product?.price?.toFixed(2)}</h3>
+          {<button onClick={handleClick}>ADD TO BAG</button>}
+          <h3 className="sProduct-desc">{product.description}</h3>
         </div>
       </div>
     </div>

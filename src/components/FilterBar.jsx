@@ -22,6 +22,10 @@ import cartIcon from "../assets/cartIcon.png";
 export default function FilterBar({ setFilters, filters }) {
   const { data, error, isLoading } = useAllCategoriesQuery();
 
+  if(error) {
+    return <p>Could not access categories</p>
+  }
+
   //need function so that when a category is checked, it only shows that category
   //when another category is checked, that category also shows up
 
@@ -37,8 +41,8 @@ export default function FilterBar({ setFilters, filters }) {
   }
 
   return (
-    <div>
-      <label className="category-checkbox">Category</label>
+    <div className="Filter-bar">
+      <label className="category-checkbox">Categories</label>
       {data?.length ? (
         data?.map((category, index) => {
           return (
@@ -54,7 +58,9 @@ export default function FilterBar({ setFilters, filters }) {
           );
         })
       ) : (
-        <h2>{isLoading ? "Loading..." : ""}</h2>
+        <h2 style={{ padding: "50px 100px" }}>
+          {isLoading ? "Loading..." : ""}
+        </h2>
       )}
       {/* <label>Prices</label>
       <div className="filter-type">

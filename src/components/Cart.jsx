@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { API_URL } from "./Products";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
 import {
   useCartListQuery,
   useUserCartQuery,
@@ -10,12 +10,17 @@ import {
   useAddToUserCartMutation,
   useDeleteUserCartItemMutation,
   useProductListQuery,
+  useUpdateUserCartMutation,
 } from "../redux/api";
 
 //props = userId, token
 export default function Cart(props) {
+  const { userId, guest } = useParams();
   const navigate = useNavigate();
   const [array, setArray] = useState([]);
+  const [deleteItem] = useDeleteCartItemMutation();
+  const [updateCart] = useUpdateUserCartMutation();
+  const [cartProduct, setCartProduct] = useState([]);
 
   const {
     data: cartData, //[{},{}]
@@ -53,14 +58,30 @@ export default function Cart(props) {
   }, [productIsLoading, cartIsLoading]);
 
   if (cartIsLoading) {
-    return <p>Loading...</p>;
+    return <p style={{ padding: "50px 100px" }}>Loading...</p>;
   }
-  if (cartError) {
-    return <p> Please log in to access your cart.</p>;
-  }
+  // if (cartError) {
+  //   return (
+  //     <p style={{ padding: "50px 100px" }}>
+  //       Please log in to access your cart.
+  //     </p>
+  //   );
+  // }
+
+console.log("props", props)
+
+  const handleDelete = async (productId) => {
+    console.log("cart data", cartData);
+    const { data: updatedItem } = await updateCart({
+      userId: cartData[0].userId,
+      productId,
+      token: props.token,
+    });
+    console.log("updateitem", updatedItem);
+  };
 
   const handleClick = () => {
-    navigate("/users/checkout");
+    props.token ? navigate("/users/checkout") : navigate("/auth/login");
   };
 
   //local storage for guest user, stored in browser
@@ -71,29 +92,34 @@ export default function Cart(props) {
   //windows.set local storage and windows.get local storage
   //create cart from data from local storage
 
-  console.log("array", array);
-
   const cartSum = array.reduce((accum, currentValue) => {
     return accum + currentValue.price;
-  },0)
-  console.log("cartsum", cartSum)
-  
+  }, 0);
 
   return (
-    <div>
-      <Link to="/products">&#60;Continue Shopping</Link>
-      <div>
+    <div className="all-cart-elements">
+      {userId || guest ? <Link to="/products">&#60;Continue Shopping</Link> : null}
+      {userId ? <h2>Your Cart</h2> : null}
+
+      <div className="cart-and-order-boxes">
         <div className="cart-box">
-          This side for items
           {array?.length ? (
             array?.map((products) => {
               // console.log(products)
 
               return (
-                <div className="cart-item">
+                <div className="cart-items">
                   <img src={products.image} width={"100px"} />
-                  <p>${products.price.toFixed(2)}</p>
-                  <FaTrashAlt role="button" tabIndex="0" />
+                  <div className="cart-info">
+                    <p>{products.title}</p>
+                    <p>${products.price.toFixed(2)}</p>
+                  </div>
+                  <FaRegTrashAlt
+                    className="trash-icon"
+                    role="button"
+                    tabIndex="0"
+                    onClick={() => handleDelete(products.id)}
+                  />
                 </div>
               );
             })
@@ -103,11 +129,16 @@ export default function Cart(props) {
         </div>
 
         <div className="order-box">
-          This side for order summary
-          <p className="order-sum">
-            Cart Total ${cartSum.toFixed(2)}
-          </p>
-          <button onClick={handleClick}>Check Out</button>
+          <h4>ORDER SUMMARY</h4>
+          <div className="order-summary">
+            <p>Cart Total </p>
+            <p>${cartSum.toFixed(2)}</p>
+          </div>
+          {userId ? (
+            <button onClick={handleClick}>CHECK OUT</button>
+          ) : (
+            <button onClick={handleClick}>PLACE ORDER</button>
+          )}
         </div>
       </div>
     </div>

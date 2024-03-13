@@ -6,11 +6,11 @@ for example 'Login' should be available if someone has not logged in yet. */
 
 import { React, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import BrandLogo from "../assets/brandlogo.png";
-import cartIcon from "../assets/cartIcon.png";
-import accountIcon from "../assets/accountIcon.png";
-import { FaTrashAlt } from "react-icons/fa";
+import BrandLogo from "../assets/logo.png";
+import { FaBagShopping } from "react-icons/fa6";
+import { FaRegUser } from "react-icons/fa";
 import { API_URL } from "./Products";
+import { MdOutlineSell } from "react-icons/md";
 
 export default function NavBar(props) {
   const navigate = useNavigate();
@@ -21,36 +21,41 @@ export default function NavBar(props) {
   };
 
   return (
-    <div className="navBar">
-      <div className="leftNav">
-        <div>
-          <Link to="/">
+    <div className="navBar-container">
+      <div className="navBar">
+        <div className="leftNav">
+          <Link to="/" className="navLinkL">
             <img id="logo-image" src={BrandLogo} />
           </Link>
+          <Link to="/products" className="navLinkL navtext">
+            Shop All
+          </Link>
         </div>
-        <Link to="/products" className="navLink">
-          All Products
-        </Link>
-      </div>
-      <div className="rightNav">
-        <div>
+        <div className="rightNav">
+          {props.token && (
+            <Link to={`/auth/upload`} className="navLinkR">
+              <MdOutlineSell role="button" className="navIcon" />
+            </Link>
+          )}
+
           <Link
             to={props.token ? "/auth/me" : "/auth/login"}
-            className="navLink"
+            className="navLinkR"
           >
-            <img id="accountIcon" src={accountIcon} width="30" />
+            <FaRegUser role="button" className="navIcon" />
           </Link>
 
           <Link
-            to={props.token ? `/carts/${props.userId}` : "/carts/"}
-            className="navLink"
+            to={props.token ? `/carts/${props.userId}` : "/carts/guest"}
+            className="navLinkR"
           >
-            <img id="cartIcon" src={cartIcon} width="30" />
+            <FaBagShopping role="button" className="navIcon" />
           </Link>
         </div>
       </div>
-
-      <div></div>
+      <div className="searchBar">
+        test
+      </div>
     </div>
   );
 }

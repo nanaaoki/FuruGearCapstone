@@ -25,6 +25,7 @@ function Register() {
     address: { geolocation: { ...geoLocationForm }, ...addressForm },
     ...userForm,
   });
+
   const [errorMsg, setError] = useState(null);
   const [register] = useRegisterMutation();
 
@@ -53,6 +54,8 @@ function Register() {
     //     console.log(`data ${JSON.stringify(data)}`);
     //   }
   };
+
+
   const handleChangeName = (e) =>
     setNameForm({ ...nameForm, [e.target.name]: e.target.value });
 
@@ -65,6 +68,8 @@ function Register() {
   const handleChangeUserForm = (e) => {
     setUserForm({ ...userForm, [e.target.name]: e.target.value });
   };
+
+
   return (
     <div>
       <h2>Register Form</h2>
@@ -148,24 +153,8 @@ function Register() {
           onChange={handleChangeAddress}
           placeholder="Zipcode"
         />
-        <label htmlFor="geolocation">Latitude:</label>
-        <input
-          type="text"
-          name="lat"
-          //   data-subfield="lat"
-          value={geoLocationForm.lat}
-          onChange={handleChangeGeolocation}
-          placeholder="Latitude"
-        />
+        
 
-        <label htmlFor="geolocation">Longitude:</label>
-        <input
-          type="text"
-          name="long"
-          value={geoLocationForm.long}
-          onChange={handleChangeGeolocation}
-          placeholder="Longitude"
-        />
         <label htmlFor="phone">Phone Number:</label>
         <input
           type="number"

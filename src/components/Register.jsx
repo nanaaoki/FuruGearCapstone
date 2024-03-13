@@ -1,80 +1,124 @@
-/* TODO - add your code to create a functional React component 
-that renders a registration form */
-
 import { useState } from "react";
+import {useNavigate } from "react-router-dom";
 import { useRegisterUserMutation } from "../redux/api";
 
-export default function Register() {
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [newEmail, setNewEmail] = useState("");
-  const [newUsername, setNewUsername] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [error, setError] = useState(null);
+export default function Register(props) {
+  const navigate = useNavigate();
+  const [nameForm, setNameForm] = useState({
+    firstname: "fname",
+    lastname: "lname",
+  });
+
+  const [addressForm, setAddressForm] = useState({
+    number: "",
+    street: "",
+    city: "",
+    zipcode: "",
+  });
+  const [userForm, setUserForm] = useState({
+    email: "abc@abc.com",
+    username: "test",
+    password: "adfadsfadf",
+  });
+
+  const [form, setForm] = useState({
+    name: { ...nameForm },
+    address: { ...addressForm },
+    ...userForm,
+  });
+
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const [register] = useRegisterUserMutation();
 
-  async function handleSubmit(event) {
+  async function handleClick(event) {
     event.preventDefault();
-
-    
+    setForm({
+      name: { ...nameForm },
+      address: { ...addressForm },
+      ...userForm,
+    });
+    const { data, error } = await register(form);
+    if (error) {
+      setErrorMsg(error.data.message);
+    }        
+    console.log("form", form )
+    props.token ? navigate("/auth/me") : navigate("/auth/login")
   }
-// const { data, error } = await register(form);
+
+  const handleNameFormChange = (e) =>
+    setNameForm({ ...nameForm, [e.target.name]: e.target.value });
+  // const handleAddressFormChange = (e) =>
+  // setNameForm({ ...nameForm, [e.target.name]: e.target.value});
+  const handleUserFormChange = (e) =>
+    setNameForm({ ...nameForm, [e.target.name]: e.target.value });
 
   return (
     <div className="register-elements">
       <div className="register-form-box">
         <h2 className="header"> Register </h2>
-        {error && <p>{error}</p>}
-        <form onSubmit={handleSubmit} className="registerform">
+        {errorMsg && <p>{errorMsg}</p>}
+        <form onSubmit={handleClick} className="registerform">
           <div className="inputgrid">
             <span className="register-span">
               <label className="register-label">First Name: </label>
               <input
-                value={firstname}
+                value={nameForm.firstname}
                 type="text"
-                onChange={(event) => setFirstname(event.target.value)}
+                className="registerInput"
+                name="firstname"
+                onChange={handleNameFormChange}
                 required
               />
             </span>
             <span className="register-span">
               <label className="register-label">Last Name: </label>
               <input
-                value={lastname}
+                value={nameForm.lastname}
                 type="text"
-                onChange={(event) => setLastname(event.target.value)}
+                className="registerInput"
+                name="lastname"
+                onChange={handleNameFormChange}
                 required
               />
             </span>
             <span className="register-span">
               <label className="register-label">Email: </label>
               <input
-                value={newEmail}
+                value={userForm.email}
                 type="text"
-                onChange={(event) => setNewEmail(event.target.value)}
+                className="registerInput"
+                name="email"
+                onChange={handleUserFormChange}
                 required
               />
             </span>
             <span className="register-span">
               <label className="register-label">Username: </label>
               <input
-                value={newUsername}
+                value={userForm.username}
                 type="text"
-                onChange={(event) => setNewUsername(event.target.value)}
+                className="registerInput"
+                name="username"
+                onChange={handleUserFormChange}
                 required
               />
             </span>
             <span className="register-span">
               <label className="register-label">Password: </label>
               <input
-                value={newPassword}
+                value={userForm.password}
                 type="password"
-                onChange={(event) => setNewPassword(event.target.value)}
+                className="registerInput"
+                name="password"
+                onChange={handleUserFormChange}
                 required
               />
             </span>
           </div>
-          <button className="SubmitBtn">Submit</button>
+          <button className="SubmitBtn">
+            Submit
+          </button>
         </form>
       </div>
       <div className="register-pic-box">IMAGE</div>

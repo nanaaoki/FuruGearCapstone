@@ -4,8 +4,10 @@ import loginpic from "../assets/loginpic.avif";
 import { API_URL } from "./Products";
 import { useLoginUserMutation } from "../redux/api";
 import { useUserListQuery } from "../redux/api";
+import { useDispatch } from "react-redux";
 
 export default function Login(props) {
+  const dispatch = useDispatch();
   const [userInfo, setUserInfo] = useState({
     username: "johnd",
     password: "m38rmF$",
@@ -45,22 +47,22 @@ export default function Login(props) {
         <form onSubmit={handleClick} className="loginform">
           <div className="inputgrid">
             <span className="login-span">
-              <label className="login-label">Username: johnd </label>
+              <label className="login-label">Username:</label>
               <input
                 value={userInfo.username}
-                type="username"
-
+                type="text"
+                className="loginInput"
                 name="username"
                 onChange={onUserInput}
                 required
               />
             </span>
             <span className="login-span">
-              <label className="login-label">Password: m38rmF$</label>
+              <label className="login-label">Password:</label>
               <input
                 value={userInfo.password}
                 type="password"
-
+                className="loginInput"
                 name="password"
                 onChange={onUserInput}
                 required

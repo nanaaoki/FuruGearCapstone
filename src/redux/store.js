@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import { apiSlice } from "./api";
 
+
 // import { setupListeners } from "@reduxjs/toolkit/query";
 
 export default configureStore({
@@ -15,4 +16,4 @@ export default configureStore({
     ),
 });
 
-// setupListeners(store.dispatch);
+

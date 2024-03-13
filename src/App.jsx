@@ -10,11 +10,48 @@ import Register from "./components/Register";
 import Account from "./components/Account";
 import Cart from "./components/Cart";
 import Checkout from "./components/CheckOut";
+import Upload from "./components/uploadProduct";
+import Footer from "./components/Footer";
 
 function App() {
   const [token, setToken] = useState(null);
+
   const [username, setUsername] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [nameForm, setNameForm] = useState({
+    firstname: "",
+    lastname: "",
+  });
+
+  const [addressForm, setAddressForm] = useState({
+    number: "",
+    street: "",
+    city: "",
+    zipcode: "",
+  });
+  const [userForm, setUserForm] = useState({
+    email: "",
+    username: "",
+    password: "",
+  });
+
+  const [form, setForm] = useState({
+    name: { ...nameForm },
+    address: { ...addressForm },
+    ...userForm,
+  });
+
+  const [cartItems, setCartItems] = useState(() => {
+    const storedCartItems = localStorage.getItem("cartItems");
+    return storedCartItems ? KSON.parse(storedCartItems) : [];
+  });
+
+  // useEffect(() => {
+  //   console.log("userID from APP", userId);
+  //   console.log("cartItems from APP", cartItems);
+  //   localStorage.setItem("userId", userId);
+  // });
+
   //can pass props down but not up. So can pass token to any that might need it.
   // endpoint users/me requires a token under "authorization"
   // PATCH has authorization piece.
@@ -22,32 +59,50 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <NavBar token={token} setToken={setToken} userId={userId} />
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/products" element={<Products />} />
-          <Route
-            path="/products/:id"
-            element={<SingleProduct token={token} />}
-          />
-          <Route
-            path="/auth/login"
-            element={<Login setToken={setToken} setUsername={setUsername} />}
-          />
-          <Route
-            path="/auth/register"
-            element={<Register setToken={setToken} />}
-          />
-          <Route
-            path="/auth/me"
-            element={
-              <Account token={token} setToken={setToken} username={username} setUserId={setUserId} />
-            }
-          />
-          <Route path="/carts/" element={<Cart />} />
-          <Route path="/carts/:id" element={<Cart token={token} userId={userId}/>} />
-          <Route path="/users/checkout" element={<Checkout />} />
-        </Routes>
+        <div className="all-but-footer">
+          <NavBar token={token} setToken={setToken} userId={userId} />
+
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/products" element={<Products />} />
+            <Route
+              path="/products/:id"
+              element={<SingleProduct token={token} />}
+            />
+            <Route
+              path="/auth/login"
+              element={<Login setToken={setToken} setUsername={setUsername} />}
+            />
+            <Route
+              path="/auth/register"
+              element={<Register setToken={setToken} setForm={setForm} />}
+            />
+            <Route
+              path="/auth/me"
+              element={
+                <Account
+                  token={token}
+                  setToken={setToken}
+                  username={username}
+                  setUserId={setUserId}
+                  setForm={setForm}
+                />
+              }
+            />
+            <Route path="/auth/upload" element={<Upload token={token} />} />
+            {/* <Route path="/carts/guest" element={<Cart />} /> */}
+            <Route
+              path={token ? "/carts/:userId" : "/carts/guest"}
+              element={<Cart token={token} userId={userId} />}
+            />
+            <Route
+              path="/users/checkout"
+              element={<Checkout token={token} userId={userId} />}
+            />
+          </Routes>
+        </div>
+
+        <Footer />
       </BrowserRouter>
     </>
   );
