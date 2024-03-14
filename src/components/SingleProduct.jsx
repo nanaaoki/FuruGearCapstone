@@ -1,27 +1,23 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { API_URL } from "./Products";
-import {
-  Link,
-  useParams,
-  useNavigate,
-  useNavigationType,
-} from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useAddToCartMutation } from "../redux/api";
-import {useAddToUserCartMutation } from "../redux/api"
+import { addToCart } from "../slice/cartSlice";
+import { useAddToUserCartMutation } from "../redux/api";
 import { useSingleProductQuery } from "../redux/api";
 import { FaStar, FaRegStar, FaStarHalfStroke } from "react-icons/fa6";
 
 export default function SingleProduct({ token }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [product, setProduct] = useState({});
   const [localCart, setLocalCart] = useState({});
   const { id } = useParams();
   const [errorMsg, setError] = useState(null);
-  const [addToCart] = useAddToCartMutation(); //for users w/ userIds
+  // const [addToCart] = useAddToCartMutation();
 
   const { data, error, isLoading } = useSingleProductQuery({});
-
-  console.log("localCart", localCart);
 
   useEffect(() => {
     fetchSingleProduct();
@@ -89,16 +85,18 @@ export default function SingleProduct({ token }) {
 
   async function handleClick(event) {
     event.preventDefault();
-    // setLocalStorage(product.id, product);
+    
+    dispatch(addToCart(product)); //dispatch calls the "addToCart" action (defined in cartSlice)
 
-    const { data, error } = await addToCart({ product, token });
-    if (error) {
-      setError(error.data);
-    } else {
-      setLocalCart({ ...localCart, product });
-      navigate(token ? `/carts/${id}` : "/carts/guest");
-    }
+    navigate(token ? `/carts/${id}` : "/carts/guest");
+
   }
+
+  //user logs in, fetch cart info. when you fetch cart info, console log.
+  //Console log local storage then.
+
+  // function to push productId into localCart
+
 
   return (
     <div className="sProduct-elements">
@@ -119,7 +117,7 @@ export default function SingleProduct({ token }) {
           </div>
 
           <h3 className="sProduct-price">${product?.price?.toFixed(2)}</h3>
-          {<button onClick={handleClick}>ADD TO BAG</button>}
+          <button onClick={handleClick}>ADD TO BAG</button>
           <h3 className="sProduct-desc">{product.description}</h3>
         </div>
       </div>

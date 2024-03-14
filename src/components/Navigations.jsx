@@ -20,6 +20,9 @@ export default function NavBar(props) {
     navigate("/");
   };
 
+  const localStorageToken = JSON.parse(localStorage.getItem("token"));
+  const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
+
   return (
     <div className="navBar-container">
       <div className="navBar">
@@ -32,30 +35,32 @@ export default function NavBar(props) {
           </Link>
         </div>
         <div className="rightNav">
-          {props.token && (
+          {(props.token || localStorageToken) && (
             <Link to={`/auth/upload`} className="navLinkR">
               <MdOutlineSell role="button" className="navIcon" />
             </Link>
           )}
 
           <Link
-            to={props.token ? "/auth/me" : "/auth/login"}
+            to={localStorageToken || props.token ? "/auth/me" : "/auth/login"}
             className="navLinkR"
           >
             <FaRegUser role="button" className="navIcon" />
           </Link>
 
           <Link
-            to={props.token ? `/carts/${props.userId}` : "/carts/guest"}
+            to={
+              props.token || localStorageToken
+                ? `/carts/${localStorageUserId}`
+                : "/carts/guest"
+            }
             className="navLinkR"
           >
             <FaBagShopping role="button" className="navIcon" />
           </Link>
         </div>
       </div>
-      <div className="searchBar">
-        test
-      </div>
+      <div className="searchBar">test</div>
     </div>
   );
 }

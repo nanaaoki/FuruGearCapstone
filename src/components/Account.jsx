@@ -8,11 +8,14 @@ import { clearCart } from "../slice/cartSlice";
 //props = token, setToken, username, setId
 export default function Account(props) {
   console.log("props", props); //returns token, username, settoken, and setUserId
+  console.log("props'token", props.token)
   const navigate = useNavigate();
   const [edit, setEdit] = useState(false);
   const dispatch = useDispatch();
+  const localStorageToken = JSON.parse(localStorage.getItem("token"));
+  const localStorageUsername = JSON.parse(localStorage.getItem("username"));
 
-  const { data, error, isLoading } = useUserListQuery({ token: props.token });
+  const { data, error, isLoading } = useUserListQuery({ token: props.token || localStorageToken });
 
   const [nameForm, setNameForm] = useState({
     firstname: "",
@@ -39,7 +42,8 @@ export default function Account(props) {
 
   const logoutUser = () => {
     props.setToken(null);
-    localStorage.setItem("RESET_CART", []);
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
     dispatch(clearCart());
     navigate("/");
   };
@@ -50,16 +54,21 @@ export default function Account(props) {
   if (error) {
     return <p>Could not load info...</p>;
   }
-  if (!props.token) {
+
+  if (!props.token && !localStorageToken) {
     navigate("/auth/login/");
   }
 
-  const user = data.find((user) => user.username === props.username);
+//data is info for ALL users
+  const user = data.find((user) => user.username === localStorageUsername);
 
   //delays the execution of setUserId
   setTimeout(() => {
-    props.setUserId(user.id);
+    props.setUserId(user?.id);
+    localStorage.setItem("userId", JSON.stringify(user.id));
   });
+
+
 
   const handleAddressFormChange = (e) =>
     setAddressForm({ ...addressForm, [e.target.name]: e.target.value });
@@ -80,36 +89,47 @@ export default function Account(props) {
     setEdit((prev) => false);
   };
 
-  console.log("form", form);
-  console.log("user", user);
+
+
+
   return (
     <div>
       {edit === false ? (
         <div className="accountAll">
-          <h2>hi, {user.name.firstname}! </h2>
-          <button onClick={logoutUser} className="logout-btn">
-            Log Out
-          </button>
+          {user && (
+            <>
+              <h2>hi, {user?.name.firstname}! </h2>
+              <button onClick={logoutUser} className="logout-btn">
+                Log Out
+              </button>
 
-          <div className="account-boxes">
-            <div className="Profile-box">
-              <h2>Profile</h2>
-              <label className="profile-info">
-                Name: {user.name.firstname} {user.name.lastname}
-              </label>
-              <label className="profile-info">Email: {user.email}</label>
-              <label className="profile-info">Password: {user.password}</label>
+              <div className="account-boxes">
+                <div className="Profile-box">
+                  <h2>Profile</h2>
+                  <label className="profile-info">
+                    Name: {user?.name.firstname} {user?.name.lastname}
+                  </label>
+                  <label className="profile-info">Email: {user.email}</label>
+                  <label className="profile-info">
+                    Password: {user.password}
+                  </label>
 
-              <h2>Address</h2>
-              <label className="profile-info">
-                Street: {user.address.number} {user.address.street}
-              </label>
-              <label className="profile-info">City: {user.address.city}</label>
-              <label className="profile-info">Zipcode: {user.address.zipcode}</label>
+                  <h2>Address</h2>
+                  <label className="profile-info">
+                    Street: {user.address.number} {user.address.street}
+                  </label>
+                  <label className="profile-info">
+                    City: {user.address.city}
+                  </label>
+                  <label className="profile-info">
+                    Zipcode: {user.address.zipcode}
+                  </label>
 
-              <button onClick={() => setEdit(true)}>edit</button>
-            </div>
-          </div>
+                  <button onClick={() => setEdit(true)}>edit</button>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       ) : (
         //EDIT FIELDS

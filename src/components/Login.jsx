@@ -25,9 +25,8 @@ export default function Login(props) {
     } else {
       props.setToken(data.token);
       props.setUsername(userInfo.username);
-
-      console.log("token", data.token);
-
+      localStorage.setItem("token", JSON.stringify(data.token));
+      localStorage.setItem("username", JSON.stringify(userInfo.username));
       navigate("/auth/me");
     }
   }

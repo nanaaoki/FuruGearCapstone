@@ -18,6 +18,7 @@ function App() {
 
   const [username, setUsername] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [productId, setProductId] = useState(null);
   const [nameForm, setNameForm] = useState({
     firstname: "",
     lastname: "",
@@ -41,16 +42,14 @@ function App() {
     ...userForm,
   });
 
-  const [cartItems, setCartItems] = useState(() => {
-    const storedCartItems = localStorage.getItem("cartItems");
-    return storedCartItems ? KSON.parse(storedCartItems) : [];
-  });
+  
 
-  // useEffect(() => {
-  //   console.log("userID from APP", userId);
-  //   console.log("cartItems from APP", cartItems);
-  //   localStorage.setItem("userId", userId);
+  // const [cartItems, setCartItems] = useState(() => {
+  //   const storedCartItems = localStorage.getItem("cartItems");
+  //   return storedCartItems ? JSON.parse(storedCartItems) : [];
   // });
+
+
 
   //can pass props down but not up. So can pass token to any that might need it.
   // endpoint users/me requires a token under "authorization"
