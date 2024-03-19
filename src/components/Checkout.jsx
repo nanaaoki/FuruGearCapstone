@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { getCart, clearCart } from "../slice/cartSlice";
 
+import reactSelect from "react-select";
 
 export default function Checkout(props) {
   const currentCart = useSelector(getCart);
@@ -47,7 +48,10 @@ export default function Checkout(props) {
     <div className="checkout-elements">
       {orderConf === false ? (
         <div className="checkoutAll">
-          <Link to={props.token ? `/carts/${props.userId}` : `/carts/guest`} className="ReturnToCartText">
+          <Link
+            to={props.token ? `/carts/${props.userId}` : `/carts/guest`}
+            className="ReturnToCartText"
+          >
             &#60;Return to Cart
           </Link>
           <h2>Checkout</h2>
@@ -117,7 +121,10 @@ export default function Checkout(props) {
                   <p className="billing-info">{billingForm.city}</p>
                   <p className="billing-info">{billingForm.state}</p>
                   <p className="billing-info">{billingForm.zipcode}</p>
-                  <button onClick={() => setBAddress(false)} className="edit-ba-btn">
+                  <button
+                    onClick={() => setBAddress(false)}
+                    className="edit-ba-btn"
+                  >
                     Edit Address
                   </button>
                 </div>
@@ -163,8 +170,6 @@ export default function Checkout(props) {
             <div className="checkout-cart-box">
               {currentCart?.length ? (
                 currentCart?.map((products) => {
-
-
                   return (
                     <div className="cart-items" key={products.id}>
                       <img src={products.image} width={"100px"} />

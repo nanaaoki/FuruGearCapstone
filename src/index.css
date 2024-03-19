@@ -196,6 +196,7 @@ button {
   padding: 8px;
 }
 
+
 .navBar-container {
   /* border: solid red; */
   background-color: rgb(225, 210, 245);
@@ -213,7 +214,7 @@ button {
 }
 
 .leftNav {
-  /* border: solid blue; */
+  border: solid blue;
   display: flex;
   height: 100%;
   align-items: center;
@@ -232,7 +233,7 @@ button {
   width: 340px;
   align-items: center;
   /* padding-left: 20px; */
-  /* border: solid green; */
+  border: solid green;
   /* justify-content: space-around; */
 }
 
@@ -328,7 +329,7 @@ button {
   .sProduct-elements {
     width: 100vw;
     padding: 1px;
-    border: solid green;
+    /* border: solid green; */
   }
 }
 
@@ -409,7 +410,7 @@ button {
 .ReturnToCartText {
   text-decoration: none;
   color: rgb(71, 69, 65);
-  font-size: 12px;
+  font-size: 14px;
 }
 .ContinueShopText:hover {
   border-bottom: 3px solid rgb(225, 210, 245);
@@ -596,7 +597,7 @@ button {
 }
 
 .cart-empty {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .order-box {
@@ -604,8 +605,7 @@ button {
   width: 30vw;
   /* border: solid purple; */
   margin: 1% 5% 0 1%;
-
-  font-size: 1.1vw;
+  font-size: 16px;
 }
 
 .order-summary {

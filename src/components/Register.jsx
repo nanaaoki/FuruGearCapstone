@@ -51,7 +51,7 @@ export default function Register(props) {
     setNameForm({ ...nameForm, [e.target.name]: e.target.value });
 
   const handleUserFormChange = (e) =>
-    setNameForm({ ...nameForm, [e.target.name]: e.target.value });
+    setUserForm({ ...userForm, [e.target.name]: e.target.value });
 
   return (
     <div className="register-elements">
