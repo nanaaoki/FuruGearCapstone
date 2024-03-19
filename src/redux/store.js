@@ -3,8 +3,6 @@ import cartSlice from "../slice/cartSlice";
 import { apiSlice } from "./api";
 
 
-// import { setupListeners } from "@reduxjs/toolkit/query";
-
 export default configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,

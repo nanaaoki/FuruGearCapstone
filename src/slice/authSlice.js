@@ -24,7 +24,7 @@ const authSlice = createSlice({
         //update the state w/ user info and token from payload
         state.users = payload.user;
         state.token = payload.token;
-        console.log("payload", payload);
+    
       }
     );
     builder.addMatcher(
@@ -34,15 +34,14 @@ const authSlice = createSlice({
         //update the state w/ user info and token from payload
         state.users = payload.user;
         state.token = payload.token;
-        console.log("stateuser", state.users);
-        console.log("statetoken", state.token);
+      
       }
     );
     builder.addMatcher(
       //Handle the fulfilled action of the userAccount endpont from authApi
       authApi.endpoints.userAccount.matchFulfilled,
       (state, { payload }) => {
-        console.log("payload", payload);
+
         return { ...state, users: payload };
       }
     );

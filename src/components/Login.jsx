@@ -1,16 +1,14 @@
 import { React, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import loginpic from "../assets/loginpic.avif";
-import { API_URL } from "./Products";
+import storefront from "../assets/storefront.jpeg";
 import { useLoginUserMutation } from "../redux/api";
-import { useUserListQuery } from "../redux/api";
-import { useDispatch } from "react-redux";
+
 
 export default function Login(props) {
-  const dispatch = useDispatch();
+
   const [userInfo, setUserInfo] = useState({
-    username: "johnd",
-    password: "m38rmF$",
+    username: "",
+    password: "",
   });
 
   const [errorMsg, setError] = useState(null);
@@ -80,7 +78,7 @@ export default function Login(props) {
         </form>
       </div>
       <div className="login-pic-box">
-        <img id="login-pic" src={loginpic} />
+        <img id="login-pic" src={storefront} />
       </div>
     </div>
   );

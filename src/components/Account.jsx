@@ -1,21 +1,21 @@
-import { React, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { React, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useUserListQuery } from "../redux/api";
 import { useDispatch } from "react-redux";
 import { clearCart } from "../slice/cartSlice";
+import loginpic from "../assets/loginpic.avif";
 
 //props = token, setToken, username, setId
 export default function Account(props) {
-  console.log("props", props); //returns token, username, settoken, and setUserId
-  console.log("props'token", props.token)
   const navigate = useNavigate();
   const [edit, setEdit] = useState(false);
   const dispatch = useDispatch();
   const localStorageToken = JSON.parse(localStorage.getItem("token"));
   const localStorageUsername = JSON.parse(localStorage.getItem("username"));
 
-  const { data, error, isLoading } = useUserListQuery({ token: props.token || localStorageToken });
+  const { data, error, isLoading } = useUserListQuery({
+    token: props.token || localStorageToken,
+  });
 
   const [nameForm, setNameForm] = useState({
     firstname: "",
@@ -32,6 +32,7 @@ export default function Account(props) {
     email: "",
     username: "",
     password: "",
+    phone: "",
   });
 
   const [form, setForm] = useState({
@@ -40,13 +41,6 @@ export default function Account(props) {
     ...userForm,
   });
 
-  const logoutUser = () => {
-    props.setToken(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    dispatch(clearCart());
-    navigate("/");
-  };
 
   if (isLoading) {
     return <p>Loading Info...</p>;
@@ -59,7 +53,7 @@ export default function Account(props) {
     navigate("/auth/login/");
   }
 
-//data is info for ALL users
+  //data is info for ALL users
   const user = data.find((user) => user.username === localStorageUsername);
 
   //delays the execution of setUserId
@@ -67,8 +61,6 @@ export default function Account(props) {
     props.setUserId(user?.id);
     localStorage.setItem("userId", JSON.stringify(user.id));
   });
-
-
 
   const handleAddressFormChange = (e) =>
     setAddressForm({ ...addressForm, [e.target.name]: e.target.value });
@@ -89,29 +81,28 @@ export default function Account(props) {
     setEdit((prev) => false);
   };
 
-
-
-
   return (
-    <div>
+    <div className="all-account-elements">
       {edit === false ? (
         <div className="accountAll">
           {user && (
             <>
-              <h2>hi, {user?.name.firstname}! </h2>
-              <button onClick={logoutUser} className="logout-btn">
-                Log Out
-              </button>
-
+              <h2>{user?.name.firstname}'s Account</h2>
               <div className="account-boxes">
+                <div className="account-pic-box">
+                  <img id="account-pic" src={loginpic} />
+                </div>
                 <div className="Profile-box">
-                  <h2>Profile</h2>
+                <h2>Profile</h2>
                   <label className="profile-info">
                     Name: {user?.name.firstname} {user?.name.lastname}
                   </label>
                   <label className="profile-info">Email: {user.email}</label>
                   <label className="profile-info">
-                    Password: {user.password}
+                    Phone Number: {user.phone}
+                  </label>
+                  <label className="profile-info">
+                    Password: &#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;
                   </label>
 
                   <h2>Address</h2>
@@ -125,7 +116,7 @@ export default function Account(props) {
                     Zipcode: {user.address.zipcode}
                   </label>
 
-                  <button onClick={() => setEdit(true)}>edit</button>
+                  <button onClick={() => setEdit(true)} className="account-edit-btn">Edit</button>
                 </div>
               </div>
             </>
@@ -157,6 +148,15 @@ export default function Account(props) {
                     onChange={handleNameFormChange}
                     placeholder={user.name.lastname}
                   />
+                  <label className="edit-label">Phone Number:</label>
+                  <input
+                    type="number"
+                    value={userForm.phone}
+                    className="editInput"
+                    name="phone"
+                    onChange={handleUserFormChange}
+                    placeholder={user.phone}
+                  />
                   <label className="edit-label">Username:</label>
                   <input
                     type="text"
@@ -177,14 +177,13 @@ export default function Account(props) {
                     placeholder={user.email}
                   />
                   <label className="edit-label">Password:</label>
-
                   <input
                     type="password"
                     value={userForm.password}
                     className="editInput"
                     name="password"
                     onChange={handleUserFormChange}
-                    placeholder={user.password}
+                    placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"
                   />
                 </div>
                 <div className="address-edit">
@@ -225,9 +224,9 @@ export default function Account(props) {
                     onChange={handleAddressFormChange}
                     placeholder={user.address.zipcode}
                   />
+              <button className="save-edit-btn">Save</button>
                 </div>
               </div>
-              <button className="save-edit-btn">Save</button>
             </form>
           </div>
         </div>

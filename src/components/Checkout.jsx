@@ -1,21 +1,22 @@
-import { React, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { React, useState } from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useUserCartQuery } from "../redux/api";
+
 import { getCart, clearCart } from "../slice/cartSlice";
-import Cart from "./Cart";
+
 
 export default function Checkout(props) {
   const currentCart = useSelector(getCart);
   const dispatch = useDispatch();
   const [orderConf, setOrderConf] = useState(false);
   const [bAddress, setBAddress] = useState(false);
+  const [location, setLocation] = useState(false);
   const [billingForm, setBillingForm] = useState({
-    name: "Elon Musk",
-    address: "666 Space World",
-    city: "Mars",
-    state: "CA",
-    zipcode: "01010",
+    name: "",
+    address: "",
+    city: "",
+    state: "",
+    zipcode: "",
   });
 
   const handleBillingFormChange = (e) =>
@@ -38,11 +39,15 @@ export default function Checkout(props) {
     dispatch(clearCart());
   };
 
+  const handleLocationChange = (event) => {
+    setLocation(event.target.value);
+  };
+
   return (
-    <div>
+    <div className="checkout-elements">
       {orderConf === false ? (
         <div className="checkoutAll">
-          <Link to={props.token ? `/carts/${props.userId}` : `/carts/guest`}>
+          <Link to={props.token ? `/carts/${props.userId}` : `/carts/guest`} className="ReturnToCartText">
             &#60;Return to Cart
           </Link>
           <h2>Checkout</h2>
@@ -97,7 +102,7 @@ export default function Checkout(props) {
                     type="text"
                     value={billingForm.zipcode}
                     placeholder={billingForm.zipcode}
-                    name="state"
+                    name="zipcode"
                     onChange={handleBillingFormChange}
                     required
                   />
@@ -112,7 +117,7 @@ export default function Checkout(props) {
                   <p className="billing-info">{billingForm.city}</p>
                   <p className="billing-info">{billingForm.state}</p>
                   <p className="billing-info">{billingForm.zipcode}</p>
-                  <button onClick={() => setBAddress(false)}>
+                  <button onClick={() => setBAddress(false)} className="edit-ba-btn">
                     Edit Address
                   </button>
                 </div>
@@ -120,23 +125,45 @@ export default function Checkout(props) {
             </div>
             <div className="pickup-box">
               <h4 className="billing-h4">SELECT PICK UP LOCATION:</h4>
-              <div>
-                <select className="pickup-dropdown">
-                  <option value="none">Select Gym</option>
-                  <option value="LIC">Long Island City</option>
-                  <option value="QB">Queensbridge</option>
-                  <option value="GOW">Gowanus</option>
-                  <option value="GP">GP</option>
-                </select>
-              </div>
+
+              <select
+                className="pickup-dropdown"
+                name="gym"
+                onChange={handleLocationChange}
+                required
+              >
+                <option value="">Select Gym</option>
+                <option value="Brooklyn Boulders Queensbridge">
+                  Brooklyn Boulders Queensbridge
+                </option>
+                <option value="Bouldeing Project @ Gowanus">
+                  Bouldering Project @ Gowanus
+                </option>
+                <option value="Central Rock Gym @ Manhattan">
+                  Central Rock Gym @ Manhattan
+                </option>
+                <option value="GP-81 @ Bushwick">GP-81 @ Bushwick</option>
+                <option value="Movement @ Long Island City">
+                  Movement @ Long Island City
+                </option>
+                <option value="Movement @ Gowanus">Movement @ Gowanus</option>
+                <option value="Movement @ Harlem">Movement @ Harlem</option>
+                <option value="Vital @ Upper East Side">
+                  Vital @ Upper East Side
+                </option>
+                <option value="Vital @ West Harlem">Vital @ West Harlem</option>
+                <option value="Vital @ Williamsburg">
+                  Vital @ Williamsburg
+                </option>
+              </select>
             </div>
           </div>
 
-          <div className="cart-and-order-boxes">
-            <div className="cart-box">
+          <div className="checkout-cart-and-order-boxes">
+            <div className="checkout-cart-box">
               {currentCart?.length ? (
                 currentCart?.map((products) => {
-                  // console.log(products)
+
 
                   return (
                     <div className="cart-items" key={products.id}>
@@ -149,10 +176,10 @@ export default function Checkout(props) {
                   );
                 })
               ) : (
-                <h2>Your cart is empty.</h2>
+                <h2 className="cart-empty">Your cart is empty.</h2>
               )}
             </div>
-            <div className="order-box">
+            <div className="checkout-order-box">
               <h4>ORDER SUMMARY</h4>
               <div className="order-summary">
                 <p>Cart Total </p>
@@ -166,9 +193,14 @@ export default function Checkout(props) {
           </div>
         </div>
       ) : (
-        <div className="">
-          <h2>Thank you for your order. </h2>
-          <p>Please coordinate with seller for drop-off / pick up day.</p>
+        <div>
+          <div className="checkout-confirmation">
+            <h2>Thank you for your purchase!</h2>
+            <p>
+              Please coordinate with seller for drop-off / pick-up day at&nbsp;
+              {location}.
+            </p>
+          </div>
         </div>
       )}
     </div>

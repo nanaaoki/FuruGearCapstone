@@ -1,12 +1,13 @@
 import { useState } from "react";
 import {useNavigate } from "react-router-dom";
 import { useRegisterUserMutation } from "../redux/api";
+import storedisplay from "../assets/storedisplay.jpeg"
 
 export default function Register(props) {
   const navigate = useNavigate();
   const [nameForm, setNameForm] = useState({
-    firstname: "fname",
-    lastname: "lname",
+    firstname: "",
+    lastname: "",
   });
 
   const [addressForm, setAddressForm] = useState({
@@ -16,9 +17,9 @@ export default function Register(props) {
     zipcode: "",
   });
   const [userForm, setUserForm] = useState({
-    email: "abc@abc.com",
-    username: "test",
-    password: "adfadsfadf",
+    email: "",
+    username: "",
+    password: "",
   });
 
   const [form, setForm] = useState({
@@ -42,14 +43,13 @@ export default function Register(props) {
     if (error) {
       setErrorMsg(error.data.message);
     }        
-    console.log("form", form )
+
     props.token ? navigate("/auth/me") : navigate("/auth/login")
   }
 
   const handleNameFormChange = (e) =>
     setNameForm({ ...nameForm, [e.target.name]: e.target.value });
-  // const handleAddressFormChange = (e) =>
-  // setNameForm({ ...nameForm, [e.target.name]: e.target.value});
+
   const handleUserFormChange = (e) =>
     setNameForm({ ...nameForm, [e.target.name]: e.target.value });
 
@@ -121,7 +121,7 @@ export default function Register(props) {
           </button>
         </form>
       </div>
-      <div className="register-pic-box">IMAGE</div>
+      <div className="register-pic-box"><img id="register-pic" src={storedisplay}/></div>
     </div>
   );
 }

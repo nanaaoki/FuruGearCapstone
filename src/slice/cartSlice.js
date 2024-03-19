@@ -9,7 +9,7 @@ const cartSlice = createSlice({
 
     addToCart: (state, action) => {
       //action is type = "cartSlice/addToCart" and payload = product
-      console.log("state.cart", state.cart)
+
       state.cart.push(action.payload);
       return state;
     },

@@ -9,16 +9,19 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Account from "./components/Account";
 import Cart from "./components/Cart";
-import Checkout from "./components/CheckOut";
+import Checkout from "./components/Checkout";
 import Upload from "./components/uploadProduct";
 import Footer from "./components/Footer";
 
 function App() {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
 
-  const [username, setUsername] = useState(null);
-  const [userId, setUserId] = useState(null);
-  const [productId, setProductId] = useState(null);
+  const [username, setUsername] = useState(
+    localStorage.getItem("username") || null
+  );
+
+  const [userId, setUserId] = useState(localStorage.getItem("userId") || null);
+
   const [nameForm, setNameForm] = useState({
     firstname: "",
     lastname: "",
@@ -42,19 +45,6 @@ function App() {
     ...userForm,
   });
 
-  
-
-  // const [cartItems, setCartItems] = useState(() => {
-  //   const storedCartItems = localStorage.getItem("cartItems");
-  //   return storedCartItems ? JSON.parse(storedCartItems) : [];
-  // });
-
-
-
-  //can pass props down but not up. So can pass token to any that might need it.
-  // endpoint users/me requires a token under "authorization"
-  // PATCH has authorization piece.
-
   return (
     <>
       <BrowserRouter>
@@ -62,6 +52,11 @@ function App() {
           <NavBar token={token} setToken={setToken} userId={userId} />
 
           <Routes>
+            <Route
+              path={token ? "/carts/:userId" : "/carts/guest"}
+              element={<Cart token={token} userId={userId} />}
+            />
+
             <Route path="/" element={<Homepage />} />
             <Route path="/products" element={<Products />} />
             <Route
@@ -89,11 +84,6 @@ function App() {
               }
             />
             <Route path="/auth/upload" element={<Upload token={token} />} />
-            {/* <Route path="/carts/guest" element={<Cart />} /> */}
-            <Route
-              path={token ? "/carts/:userId" : "/carts/guest"}
-              element={<Cart token={token} userId={userId} />}
-            />
             <Route
               path="/users/checkout"
               element={<Checkout token={token} userId={userId} />}
