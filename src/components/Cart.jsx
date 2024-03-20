@@ -39,7 +39,8 @@ export default function Cart(props) {
 
   //handle checkout button
   const handleClick = () => {
-    navigate("/users/checkout");
+    (cartSum !== 0) ? 
+    navigate("/users/checkout") : <p>Please add to bag!</p>
   };
 
 

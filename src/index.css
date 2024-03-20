@@ -214,7 +214,7 @@ button {
 }
 
 .leftNav {
-  border: solid blue;
+  /* border: solid blue; */
   display: flex;
   height: 100%;
   align-items: center;
@@ -233,7 +233,7 @@ button {
   width: 340px;
   align-items: center;
   /* padding-left: 20px; */
-  border: solid green;
+  /* border: solid green; */
   /* justify-content: space-around; */
 }
 
