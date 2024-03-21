@@ -9,6 +9,7 @@ export default function FilterBar({ setFilters, filters }) {
     return <p>Could not access categories</p>;
   }
 
+  //adding checked category into the array. Getting a list of checked categories
   function updateFilters(checked, filter) {
     if (checked) {
       setFilters([...filters, filter]);
@@ -17,6 +18,8 @@ export default function FilterBar({ setFilters, filters }) {
       const updatedFilter = filters.filter((category) => category !== filter);
       setFilters([...updatedFilter]);
     }
+    console.log("checked", checked)
+    console.log("filter", filter)
   }
 
   return (

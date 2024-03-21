@@ -8,10 +8,11 @@ import reactSelect from "react-select";
 
 export default function Checkout(props) {
   const currentCart = useSelector(getCart);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const dispatch = useDispatch();
   const [orderConf, setOrderConf] = useState(false);
   const [bAddress, setBAddress] = useState(false);
-  const [location, setLocation] = useState(false);
+  const [location, setLocation] = useState("");
   const [billingForm, setBillingForm] = useState({
     name: "",
     address: "",
@@ -42,6 +43,11 @@ export default function Checkout(props) {
 
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
+    if (event.target.value !== "") {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }   
   };
 
   return (
@@ -132,12 +138,13 @@ export default function Checkout(props) {
             </div>
             <div className="pickup-box">
               <h4 className="billing-h4">SELECT PICK UP LOCATION:</h4>
+              <p className="required-tag">required*</p>
 
               <select
                 className="pickup-dropdown"
                 name="gym"
+                value={location}
                 onChange={handleLocationChange}
-                required
               >
                 <option value="">Select Gym</option>
                 <option value="Brooklyn Boulders Queensbridge">
@@ -191,7 +198,11 @@ export default function Checkout(props) {
                 <p>${cartSum.toFixed(2)}</p>
               </div>
 
-              <button className="popup" onClick={handleOrder}>
+              <button
+                className="checkout-button"
+                onClick={handleOrder}
+                disabled={buttonDisabled}
+              >
                 PLACE ORDER
               </button>
             </div>

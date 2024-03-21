@@ -28,7 +28,7 @@ body {
 
 button {
   color: white;
-  background-color: black;
+  background-color: rgb(38, 38, 38);
   padding: 1em 1.25em;
   border: none;
   display: block;
@@ -36,6 +36,15 @@ button {
   letter-spacing: 0.1rem;
   cursor: pointer;
   font-size: 14px;
+}
+
+button:hover {
+  background-color: black;
+}
+
+button:disabled {
+  background-color: rgb(119, 117, 117);
+  cursor: default;
 }
 
 .logout-btn {
@@ -195,7 +204,6 @@ button {
   width: 55px;
   padding: 8px;
 }
-
 
 .navBar-container {
   /* border: solid red; */
@@ -929,6 +937,10 @@ input::-webkit-inner-spin-button {
   cursor: pointer;
   /* border: solid blue; */
   font-family: "Raleway";
+}
+.required-tag {
+font-size: 12px;
+margin-top: 3px;
 }
 
 .billing-h4 {

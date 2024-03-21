@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useUserCartQuery } from "../redux/api";
 
-
 //props = userId, token
 export default function Cart(props) {
 
@@ -26,34 +25,29 @@ export default function Cart(props) {
     token: props.token || localStorageToken,
   });
 
-
   if (cartIsLoading) {
     return <p style={{ padding: "50px 100px" }}>Loading...</p>;
   }
 
   //handle removing item from cart
   const handleDelete = async (productId) => {
- 
     dispatch(removeFromCart(productId));
   };
 
   //handle checkout button
   const handleClick = () => {
-    (cartSum !== 0) ? 
-    navigate("/users/checkout") : <p>Please add to bag!</p>
+    navigate("/users/checkout");
   };
-
-
 
   const cartSum = currentCart.reduce((accum, currentValue) => {
     return accum + currentValue.price;
   }, 0);
 
-
-
   return (
     <div className="all-cart-elements">
-      <Link to="/products" className="ContinueShopText">&#60;Continue Shopping</Link>
+      <Link to="/products" className="ContinueShopText">
+        &#60;Continue Shopping
+      </Link>
       <h2>Your Cart</h2>
       <div className="cart-and-order-boxes">
         <div className="cart-box">
@@ -77,7 +71,9 @@ export default function Cart(props) {
               );
             })
           ) : (
-            <h2 className="cart-empty">{cartIsLoading ? "Loading..." : "Your cart is empty."}</h2>
+            <h2 className="cart-empty">
+              {cartIsLoading ? "Loading..." : "Your cart is empty."}
+            </h2>
           )}
         </div>
 
@@ -87,9 +83,11 @@ export default function Cart(props) {
             <p>Cart Total </p>
             <p>${cartSum.toFixed(2)}</p>
           </div>
-          <button onClick={handleClick}>
-            CHECK OUT
-          </button>
+          {cartSum !== 0 ? (
+            <button onClick={handleClick}>CHECK OUT</button>
+          ) : (
+            <button disabled>CHECK OUT</button>
+          )}
         </div>
       </div>
     </div>

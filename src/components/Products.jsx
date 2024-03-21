@@ -19,6 +19,11 @@ export default function Products() {
       filters.length === 0
         ? data
         : data?.filter((p) => filters.includes(p.category));
+      
+    // filteredProducts = 
+    // pricefilter.length == 0 
+    //  ? filteredProducts
+    //  : filteredProducts?.filter((p))
   }
 
 

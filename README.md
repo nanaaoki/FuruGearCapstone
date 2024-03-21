@@ -1,1 +1,3 @@
+# FURUGEAR THRIFT STORE PROJECT  
+
 This project utilizes a fakestore API that was provided in order to create an e-commerce website. My website is an online gear shop where users can purchase as well as sell their used gear in a similar fashion as EBay or PoshMark. While the API provided had some limitations, including the inability to update the database and the login to require a username and password (as opposed to an email and password), it allowed for the ability to demonstrate the general idea of the functionalities of this website.
