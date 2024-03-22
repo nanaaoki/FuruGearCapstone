@@ -18,8 +18,6 @@ export default function FilterBar({ setFilters, filters }) {
       const updatedFilter = filters.filter((category) => category !== filter);
       setFilters([...updatedFilter]);
     }
-    console.log("checked", checked)
-    console.log("filter", filter)
   }
 
   return (

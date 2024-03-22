@@ -1,33 +1,19 @@
 import { useSelector, useDispatch } from "react-redux";
 import { getCart, removeFromCart } from "../slice/cartSlice";
-
 import { Link, useNavigate } from "react-router-dom";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { useUserCartQuery } from "../redux/api";
+
 
 //props = userId, token
 export default function Cart(props) {
-
-  const currentCart = useSelector(getCart);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const currentCart = useSelector(getCart);
 
   const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
   const localStorageToken = JSON.parse(localStorage.getItem("token"));
 
-  const {
-    data: cartData, //[{},{}]
-    error: cartError,
-    isLoading: cartIsLoading,
-  } = useUserCartQuery({
-    userId: props.userId || localStorageUserId,
-    token: props.token || localStorageToken,
-  });
-
-  if (cartIsLoading) {
-    return <p style={{ padding: "50px 100px" }}>Loading...</p>;
-  }
 
   //handle removing item from cart
   const handleDelete = async (productId) => {
@@ -52,28 +38,27 @@ export default function Cart(props) {
       <div className="cart-and-order-boxes">
         <div className="cart-box">
           {currentCart?.length ? (
-            currentCart?.map((products) => {
+            currentCart?.map((product) => {
               return (
-                <div className="cart-items" key={products.id}>
-                  <img src={products.image} width={"100px"} />
+                <div className="cart-items" key={product.id}>
+                  <img src={product.image} width={"100px"} 
+                  onClick={() => navigate(`/products/${product.id}`)} style={{cursor: "pointer"}}/>
                   <div className="cart-info">
-                    <p>{products.title}</p>
-                    <p>${products.price.toFixed(2)}</p>
+                    <p>{product.title}</p>
+                    <p>${product.price.toFixed(2)}</p>
                   </div>
                   <FaRegTrashAlt
                     className="trash-icon"
                     role="button"
                     tabIndex="0"
                     cursor="pointer"
-                    onClick={() => handleDelete(products.id)}
+                    onClick={() => handleDelete(product.id)}
                   />
                 </div>
               );
             })
           ) : (
-            <h2 className="cart-empty">
-              {cartIsLoading ? "Loading..." : "Your cart is empty."}
-            </h2>
+            <h2 className="cart-empty">Your cart is empty.</h2>
           )}
         </div>
 

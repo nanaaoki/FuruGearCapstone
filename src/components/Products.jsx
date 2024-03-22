@@ -5,27 +5,26 @@ import { useProductListQuery } from "../redux/api";
 
 export const API_URL = "https://fakestoreapi.com";
 
-export default function Products() {
+export default function Products(props) {
   const { data, isLoading } = useProductListQuery();
   const navigate = useNavigate();
 
   const [filters, setFilters] = useState([]);
   const [sortType, setSortType] = useState("none");
 
+  //creating a new array of filtered products
   let filteredProducts = [];
-
   if (data) {
     filteredProducts =
       filters.length === 0
         ? data
         : data?.filter((p) => filters.includes(p.category));
-      
-    // filteredProducts = 
-    // pricefilter.length == 0 
+
+    // filteredProducts =
+    // pricefilter.length == 0
     //  ? filteredProducts
     //  : filteredProducts?.filter((p))
   }
-
 
   const sortedItems = [...filteredProducts]?.sort((a, b) => {
     if (sortType === "none") {
@@ -38,6 +37,17 @@ export default function Products() {
       return b.rating.rate - a.rating.rate;
     }
   });
+
+
+  //filtering through all products and converting both data and search input to lowercase.
+  const searchResults = data?.filter((el) => {
+    if (props.searchInput === "") {
+      return el;
+    } else {
+      return el?.title.toLowerCase().includes(props.searchInput.toLowerCase());
+    }
+  });
+
 
   return (
     <div className="Products-All-Elements">
@@ -59,7 +69,27 @@ export default function Products() {
             </div>
             <div className="product-box-element">
               <div className="product-box">
-                {sortedItems?.length ? (
+                {/* If anything is in the search, show results. Otherwise, if anything is in sortedItems, show results */}
+                {props.searchInput ? (
+                  searchResults?.map((result) => {
+                    return (
+                      <div
+                        key={result.id}
+                        className="productCards"
+                        onClick={() => navigate(`/products/${result.id}`)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <img src={result.image} className="productPhotos" />
+                        <div className="product-text">
+                          <p className="productTitles">{result.title}</p>
+                          <p className="productPrices">
+                            ${result.price.toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : sortedItems?.length ? (
                   sortedItems?.map((product) => {
                     return (
                       //productCarts

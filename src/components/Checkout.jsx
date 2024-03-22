@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { getCart, clearCart } from "../slice/cartSlice";
 
-import reactSelect from "react-select";
+
 
 export default function Checkout(props) {
   const currentCart = useSelector(getCart);

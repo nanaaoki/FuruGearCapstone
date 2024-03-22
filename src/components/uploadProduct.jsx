@@ -1,7 +1,6 @@
 import { React, useState } from "react";
 
 export default function Upload(props) {
-
   const [uploadConf, setUploadConf] = useState(false);
   const [uploadForm, setUploadForm] = useState({
     title: "",
@@ -12,8 +11,6 @@ export default function Upload(props) {
   });
   const [uploadedImageUrl, setUploadedImageUrl] = useState();
 
-
-
   const handleUploadFormChange = (e) => {
     setUploadForm({
       ...uploadForm,
@@ -21,6 +18,7 @@ export default function Upload(props) {
     });
   };
 
+  //handle click when upload form submitted
   async function handleClick(e) {
     e.preventDefault();
     setUploadConf(true);
@@ -33,6 +31,7 @@ export default function Upload(props) {
     setUploadForm((prev) => ({ ...prev, image: imageUrl }));
   };
 
+  //handle closing confirmation page and resetting form
   const handleCloseBtn = (e) => {
     setUploadForm({
       title: "",

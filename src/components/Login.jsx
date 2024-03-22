@@ -5,16 +5,15 @@ import { useLoginUserMutation } from "../redux/api";
 
 
 export default function Login(props) {
-
+  const [login] = useLoginUserMutation();
+  const navigate = useNavigate();
+  const [errorMsg, setError] = useState(null);
   const [userInfo, setUserInfo] = useState({
     username: "",
     password: "",
   });
 
-  const [errorMsg, setError] = useState(null);
-  const [login] = useLoginUserMutation();
-  const navigate = useNavigate();
-
+  //handle click for submiting login info
   async function handleClick(event) {
     event.preventDefault();
     const { data, error } = await login(userInfo);

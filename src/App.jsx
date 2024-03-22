@@ -12,9 +12,11 @@ import Cart from "./components/Cart";
 import Checkout from "./components/Checkout";
 import Upload from "./components/uploadProduct";
 import Footer from "./components/Footer";
+import About from "./components/About";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [searchInput, setSearchInput] = useState("");
 
   const [username, setUsername] = useState(
     localStorage.getItem("username") || null
@@ -49,7 +51,13 @@ function App() {
     <>
       <BrowserRouter>
         <div className="all-but-footer">
-          <NavBar token={token} setToken={setToken} userId={userId} />
+          <NavBar
+            token={token}
+            setToken={setToken}
+            userId={userId}
+            setSearchInput={setSearchInput}
+            searchInput={searchInput}
+          />
 
           <Routes>
             <Route
@@ -58,10 +66,13 @@ function App() {
             />
 
             <Route path="/" element={<Homepage />} />
-            <Route path="/products" element={<Products />} />
+            <Route
+              path="/products"
+              element={<Products searchInput={searchInput} />}
+            />
             <Route
               path="/products/:id"
-              element={<SingleProduct token={token} />}
+              element={<SingleProduct token={token} userId={userId}/>}
             />
             <Route
               path="/auth/login"
@@ -88,6 +99,7 @@ function App() {
               path="/users/checkout"
               element={<Checkout token={token} userId={userId} />}
             />
+            <Route path="/about" element={<About />} />
           </Routes>
         </div>
 

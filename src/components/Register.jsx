@@ -1,15 +1,16 @@
 import { useState } from "react";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRegisterUserMutation } from "../redux/api";
-import storedisplay from "../assets/storedisplay.jpeg"
+import storedisplay from "../assets/storedisplay.jpeg";
 
 export default function Register(props) {
   const navigate = useNavigate();
+  const [register] = useRegisterUserMutation();
+  const [errorMsg, setErrorMsg] = useState(null);
   const [nameForm, setNameForm] = useState({
     firstname: "",
     lastname: "",
   });
-
   const [addressForm, setAddressForm] = useState({
     number: "",
     street: "",
@@ -21,17 +22,13 @@ export default function Register(props) {
     username: "",
     password: "",
   });
-
   const [form, setForm] = useState({
     name: { ...nameForm },
     address: { ...addressForm },
     ...userForm,
   });
 
-  const [errorMsg, setErrorMsg] = useState(null);
-
-  const [register] = useRegisterUserMutation();
-
+  //handle click for submitting registration form
   async function handleClick(event) {
     event.preventDefault();
     setForm({
@@ -42,9 +39,8 @@ export default function Register(props) {
     const { data, error } = await register(form);
     if (error) {
       setErrorMsg(error.data.message);
-    }        
-
-    props.token ? navigate("/auth/me") : navigate("/auth/login")
+    }
+    navigate("/auth/login");
   }
 
   const handleNameFormChange = (e) =>
@@ -116,12 +112,12 @@ export default function Register(props) {
               />
             </span>
           </div>
-          <button className="SubmitBtn">
-            Submit
-          </button>
+          <button className="SubmitBtn">Submit</button>
         </form>
       </div>
-      <div className="register-pic-box"><img id="register-pic" src={storedisplay}/></div>
+      <div className="register-pic-box">
+        <img id="register-pic" src={storedisplay} />
+      </div>
     </div>
   );
 }

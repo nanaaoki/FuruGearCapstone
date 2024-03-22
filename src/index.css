@@ -168,7 +168,7 @@ button:disabled {
 .registerInput,
 .editInput,
 .billingInput,
-.uploadInput {
+.uploadInput, .searchInput {
   /* border: none; */
   /* border-bottom: 1px solid #b0acac; */
   height: 25px;
@@ -177,6 +177,7 @@ button:disabled {
   font-family: "Raleway";
   margin-top: 2px;
 }
+
 
 .login-label,
 .register-label,
@@ -228,7 +229,9 @@ button:disabled {
   align-items: center;
   padding-left: 120px;
 }
-
+.searchInput {
+  padding-left: 20px;
+}
 .navtext:hover {
   border-bottom: 3px solid rgb(202, 171, 243);
   transition: transform 250ms ease-in-out;

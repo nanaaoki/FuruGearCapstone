@@ -4,7 +4,7 @@ import BrandLogo from "../assets/logo.png";
 import { FaBagShopping } from "react-icons/fa6";
 import { FaRegUser } from "react-icons/fa";
 import { MdOutlineSell } from "react-icons/md";
-
+import { FaSistrix } from "react-icons/fa6";
 
 export default function NavBar(props) {
   const navigate = useNavigate();
@@ -21,6 +21,15 @@ export default function NavBar(props) {
   const localStorageToken = JSON.parse(localStorage.getItem("token"));
   const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
 
+  //SEARCH BAR: only navigates to the products endpoint if there are alphabets. not spaces or numbers.
+  const handleChange = (e) => {
+    e.preventDefault();
+    if (("abcdefghijklmnopqrstuvwxyz").includes(props.searchInput)) {
+      navigate("/products")
+    }
+    props.setSearchInput(e.target.value);
+  };
+
   return (
     <div className="navBar-container">
       <div className="navBar">
@@ -28,6 +37,17 @@ export default function NavBar(props) {
           <Link to="/" className="navLinkL">
             <img id="logo-image" src={BrandLogo} />
           </Link>
+          {/* Search bar */}
+          <div className="searchbar-wrapper">
+            <FaSistrix id="search-icon" />
+            <input
+              type="text"
+              placeholder="type to search"
+              value={props.searchInput}
+              onChange={handleChange}
+              className="searchInput"
+            />
+          </div>
         </div>
         <div className="rightNav">
           <div className="rRightNav">
@@ -62,7 +82,6 @@ export default function NavBar(props) {
         <Link to="/products" className="shop-all-nav navtext">
           Shop All
         </Link>
-
 
         {(props.token || localStorageToken) && (
           <div className="LogoutBar">
