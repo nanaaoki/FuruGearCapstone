@@ -65,9 +65,10 @@ export default function SingleProduct(props) {
   return (
     <div className="SProduct-All-Elements">
       <div className="sProduct-elements">
+        <div className="continue-shopping-container">
         <Link to="/products" className="ContinueShopText">
           &#60; Continue Shopping
-        </Link>
+        </Link></div>
         <div className="photo-and-info-boxes">
           <div className="sProduct-photo-box">
             <img src={data?.image} className="productPhoto" />

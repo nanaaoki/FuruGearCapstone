@@ -3,7 +3,6 @@ import { getCart, removeFromCart } from "../slice/cartSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { FaRegTrashAlt } from "react-icons/fa";
 
-
 //props = userId, token
 export default function Cart(props) {
   const navigate = useNavigate();
@@ -13,7 +12,6 @@ export default function Cart(props) {
 
   const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
   const localStorageToken = JSON.parse(localStorage.getItem("token"));
-
 
   //handle removing item from cart
   const handleDelete = async (productId) => {
@@ -31,9 +29,11 @@ export default function Cart(props) {
 
   return (
     <div className="all-cart-elements">
-      <Link to="/products" className="ContinueShopText">
-        &#60;Continue Shopping
-      </Link>
+      <div className="continue-shopping-container">
+        <Link to="/products" className="ContinueShopText">
+          &#60;Continue Shopping
+        </Link>
+      </div>
       <h2>Your Cart</h2>
       <div className="cart-and-order-boxes">
         <div className="cart-box">
@@ -41,8 +41,12 @@ export default function Cart(props) {
             currentCart?.map((product) => {
               return (
                 <div className="cart-items" key={product.id}>
-                  <img src={product.image} width={"100px"} 
-                  onClick={() => navigate(`/products/${product.id}`)} style={{cursor: "pointer"}}/>
+                  <img
+                    src={product.image}
+                    width={"100px"}
+                    onClick={() => navigate(`/products/${product.id}`)}
+                    style={{ cursor: "pointer" }}
+                  />
                   <div className="cart-info">
                     <p>{product.title}</p>
                     <p>${product.price.toFixed(2)}</p>

@@ -39,7 +39,7 @@ export default function NavBar(props) {
           </Link>
           {/* Search bar */}
           <div className="searchbar-wrapper">
-            <FaSistrix id="search-icon" />
+            <FaSistrix className="search-icon" />
             <input
               type="text"
               placeholder="type to search"

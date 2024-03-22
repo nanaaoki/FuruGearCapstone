@@ -17,7 +17,7 @@ export default function Homepage() {
         </div>
         <div>
           <p className="hp-mission">
-            FURUGEAR strives to connect outdoor enthusiasts in the most populous
+            FURUGEAR (or furugiya/古着屋 meaning "thrift store" in Japanese) strives to connect outdoor enthusiasts in the most populous
             city in the country, and help sell and buy secondhand gear that may
             be taking up valuable space in our NYC-sized homes. Reduce waste by
             give your gear a second life.
