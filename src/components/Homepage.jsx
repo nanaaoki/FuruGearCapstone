@@ -17,10 +17,11 @@ export default function Homepage() {
         </div>
         <div>
           <p className="hp-mission">
-            FURUGEAR (or furugiya/古着屋 meaning "thrift store" in Japanese) strives to connect outdoor enthusiasts in the most populous
-            city in the country, and help sell and buy secondhand gear that may
-            be taking up valuable space in our NYC-sized homes. Reduce waste by
-            give your gear a second life.
+            FURUGEAR (or furugiya/古着屋 meaning "thrift store" in Japanese)
+            strives to connect outdoor enthusiasts in the most populous city in
+            the country, and help sell and buy secondhand gear that may be
+            taking up valuable space in our NYC-sized homes. Reduce waste by
+            giving your gear a second life.
           </p>
 
           <div className="hp-details">
@@ -37,7 +38,13 @@ export default function Homepage() {
               </ol>
             </div>
             <div className="hp-future">
-              <img src={mountainBackpack} className="homepage-pic2" alt={"image of a young woman's back with two short braids carrying a backpack while walking in the mountains"}/>
+              <img
+                src={mountainBackpack}
+                className="homepage-pic2"
+                alt={
+                  "image of a young woman's back with two short braids carrying a backpack while walking in the mountains"
+                }
+              />
               <h4>Future plans</h4>
               <p>
                 While we are still in beta phase, we are hoping to add some
