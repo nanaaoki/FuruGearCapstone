@@ -72,7 +72,7 @@ function App() {
             />
             <Route
               path="/products/:id"
-              element={<SingleProduct token={token} userId={userId}/>}
+              element={<SingleProduct token={token} userId={userId} />}
             />
             <Route
               path="/auth/login"
@@ -99,7 +99,6 @@ function App() {
               path="/users/checkout"
               element={<Checkout token={token} userId={userId} />}
             />
-            <Route path="/about" element={<About />} />
           </Routes>
         </div>
 
