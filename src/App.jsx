@@ -12,7 +12,7 @@ import Cart from "./components/Cart";
 import Checkout from "./components/Checkout";
 import Upload from "./components/uploadProduct";
 import Footer from "./components/Footer";
-import About from "./components/About";
+
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
