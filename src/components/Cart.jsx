@@ -10,8 +10,8 @@ export default function Cart(props) {
 
   const currentCart = useSelector(getCart);
 
-  const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
-  const localStorageToken = JSON.parse(localStorage.getItem("token"));
+  // const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
+  // const localStorageToken = JSON.parse(localStorage.getItem("token"));
 
   //handle removing item from cart
   const handleDelete = async (productId) => {

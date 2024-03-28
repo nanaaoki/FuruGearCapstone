@@ -10,7 +10,7 @@ import Register from "./components/Register";
 import Account from "./components/Account";
 import Cart from "./components/Cart";
 import Checkout from "./components/Checkout";
-import Upload from "./components/uploadProduct";
+import Upload from "./components/UploadProduct";
 import Footer from "./components/Footer";
 
 
@@ -50,6 +50,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+    
         <div className="all-but-footer">
           <NavBar
             token={token}

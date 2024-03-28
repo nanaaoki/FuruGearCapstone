@@ -24,8 +24,8 @@ export default function NavBar(props) {
   //SEARCH BAR: only navigates to the products endpoint if there are alphabets. not spaces or numbers.
   const handleChange = (e) => {
     e.preventDefault();
-    if (("abcdefghijklmnopqrstuvwxyz").includes(props.searchInput)) {
-      navigate("/products")
+    if ("abcdefghijklmnopqrstuvwxyz".includes(props.searchInput)) {
+      navigate("/products");
     }
     props.setSearchInput(e.target.value);
   };

@@ -8,9 +8,11 @@ export const API_URL = "https://fakestoreapi.com";
 export default function Products(props) {
   const { data, isLoading } = useProductListQuery();
   const navigate = useNavigate();
-
   const [filters, setFilters] = useState([]);
+  const [priceFilters, setPriceFilters] = useState([]);
   const [sortType, setSortType] = useState("none");
+
+  let priceFilteredProducts = [];
 
   //creating a new array of filtered products
   let filteredProducts = [];
@@ -20,13 +22,21 @@ export default function Products(props) {
         ? data
         : data?.filter((p) => filters.includes(p.category));
 
-    // filteredProducts =
-    // pricefilter.length == 0
-    //  ? filteredProducts
-    //  : filteredProducts?.filter((p))
+    priceFilteredProducts =
+      priceFilters.length === 0
+        ? filteredProducts
+        : filteredProducts?.filter(
+            (p) =>
+            // !! = returns True or False. 
+            //if True, returns the product and adds to filteredProducts
+            //without !!, would return the range (ex. [0-25])
+              !!priceFilters.find((range) => {
+                return (p.price - range[0]) * (p.price - range[1]) <= 0;
+              })
+          );
   }
 
-  const sortedItems = [...filteredProducts]?.sort((a, b) => {
+  const sortedItems = [...priceFilteredProducts]?.sort((a, b) => {
     if (sortType === "none") {
       return;
     } else if (sortType === "lowtohigh") {
@@ -38,7 +48,6 @@ export default function Products(props) {
     }
   });
 
-
   //filtering through all products and converting both data and search input to lowercase.
   const searchResults = data?.filter((el) => {
     if (props.searchInput === "") {
@@ -48,7 +57,6 @@ export default function Products(props) {
     }
   });
 
-
   return (
     <div className="Products-All-Elements">
       <div className="shopAll">
@@ -56,7 +64,12 @@ export default function Products(props) {
 
         <div className="filter-and-products-boxes">
           <div className="filter-box">
-            <FilterBar setFilters={setFilters} filters={filters} />
+            <FilterBar
+              setFilters={setFilters}
+              filters={filters}
+              setPriceFilters={setPriceFilters}
+              priceFilters={priceFilters}
+            />
           </div>
           <div className="sort-and-products-box">
             <div className="sort-box">

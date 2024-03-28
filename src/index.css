@@ -826,10 +826,10 @@ button:disabled {
   align-items: center;
 }
 
-.category-checkbox {
+.filter-checkbox {
   font-size: 18px;
   padding: 5px;
-  margin-top: 5px;
+  margin-top: 25px;
 }
 
 .checkbox {

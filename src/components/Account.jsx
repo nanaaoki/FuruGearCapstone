@@ -53,7 +53,7 @@ export default function Account(props) {
     navigate("/auth/login/");
   }
 
-  //data is info for ALL users
+  //"data" is info for ALL users
   const user = data.find((user) => user.username === localStorageUsername);
 
   //delays the execution of setUserId

@@ -26,6 +26,7 @@ export default function Upload(props) {
 
   const handleUploadedFile = (e) => {
     const file = e.target.files[0];
+    console.log("HERE", e.target)
     const imageUrl = URL.createObjectURL(file);
     setUploadedImageUrl(imageUrl);
     setUploadForm((prev) => ({ ...prev, image: imageUrl }));
@@ -42,7 +43,6 @@ export default function Upload(props) {
     });
     setUploadConf(false);
   };
-
 
   return (
     <div className="upload-elements">
@@ -118,6 +118,7 @@ export default function Upload(props) {
           </div>
         </div>
       )}
+      
     </div>
   );
 }
